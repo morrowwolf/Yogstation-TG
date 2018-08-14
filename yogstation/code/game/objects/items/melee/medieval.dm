@@ -26,7 +26,7 @@
 	
 /obj/item/melee/medieval/blade/sword/pickup(mob/user)
 	..()
-	if(!user.job == "knight")
+	if(!cmptext(user.job, "knight"))
 		force = 15
 		throwforce = 15
 		to_chat(user, "You feel awkward wielding such a elegant weapon.")

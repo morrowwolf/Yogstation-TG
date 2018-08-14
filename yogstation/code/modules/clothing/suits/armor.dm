@@ -12,9 +12,10 @@
 	
 /obj/item/clothing/suit/armor/knight/equipped(mob/user, slot)
 	..()
-	if(!user.job == "knight")
-		slowdown = 1
-		to_chat(user, "You feel awkward without training in a suit of armor.")
-	else
-		slowdown = 0
-		to_chat(user, "The armor feels like a second skin.")
+	if(!slot == SLOT_HANDS)
+		if(!cmptext(user.job, "knight"))
+			slowdown = 1
+			to_chat(user, "You feel awkward without training in a suit of armor.")
+		else
+			slowdown = 0
+			to_chat(user, "The armor feels like a second skin.")
