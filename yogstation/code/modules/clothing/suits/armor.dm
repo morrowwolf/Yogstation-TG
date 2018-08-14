@@ -9,3 +9,12 @@
 	clothing_flags = THICKMATERIAL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor = list("melee" = 60, "bullet" = 60, "laser" = 30, "energy" = 30, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	
+/obj/item/clothing/suit/armor/knight/equipped(mob/user, slot)
+	..()
+	if(!user.job == "knight")
+		slowdown = 1
+		to_chat(user, "You feel awkward without training in a suit of armor.")
+	else
+		slowdown = 0
+		to_chat(user, "The armor feels like a second skin.")
