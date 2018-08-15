@@ -15,6 +15,7 @@
 	force = 14
 	throwforce = 18
 	w_class = WEIGHT_CLASS_NORMAL
+	slot_flags = ITEM_SLOT_BELT
 	
 /obj/item/melee/medieval/blade/sword
 	name = "sword"
@@ -23,6 +24,7 @@
 	force = 30
 	throwforce = 30
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK
 	
 /obj/item/melee/medieval/blade/sword/pickup(mob/user)
 	..()
