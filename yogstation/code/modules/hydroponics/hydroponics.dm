@@ -7,7 +7,7 @@
 /obj/machinery/hydroponics/soil/medieval
 	desc = "Be a part of soil!" // https://www.youtube.com/watch?v=Eg6NIxS7jpM
 
-/obj/machinery/hydroponics/soil/medieval/proc/applyChemicals(datum/reagents/S,mob/user)
+/obj/machinery/hydroponics/soil/medieval/applyChemicals(datum/reagents/S, mob/user)
 	//Alright, Morrow wants this shit to be super simple, so it's super simple.
 	//This overrides a LOT of chemical reactions goin' on with hydroponics,
 	//and replaces it with some stupid shit
