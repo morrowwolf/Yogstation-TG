@@ -46,10 +46,10 @@
 			// If the plant is dry, it loses health pretty fast, unless mushroom
 			//(Slightly edited post medievaling to reduce the number of branches)
 			if(!myseed.get_gene(/datum/plant_gene/trait/plant_type/fungal_metabolism))
-				if(waterlevel <= 10)
-					adjustHealth(-rand(0,1) / rating)
-				else if(waterlevel <= 0)
+				if(waterlevel <= 0)
 					adjustHealth(-rand(0,3) / rating)
+				else if(waterlevel <= 10)
+					adjustHealth(-rand(0,1) / rating)
 				// Sufficient water level and nutrient level = plant healthy but also spawns weeds
 				//Except it doesn't (as of the creation of this special snowflake soil, YMMV)
 				else
