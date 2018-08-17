@@ -1,5 +1,5 @@
 /obj/item/clothing/suit/armor/knight
-	name = "Knight's Armor"
+	name = "knight's armor"
 	desc = "A solid steel armor crafted in the darkness of a medieval era."
 	alternate_worn_icon = 'yogstation/icons/mob/suit.dmi'
 	icon = 'yogstation/icons/obj/clothing/suits.dmi'

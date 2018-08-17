@@ -1,8 +1,7 @@
 /obj/effect/mob_spawn/human/medieval
-	name = "covered medieval bed"
 	desc = "An old bed that looks out of place.  Something... seems to be under there?"
-	icon = 'icons/obj/lavaland/spawners.dmi'
-	icon_state = "terrarium"
+	icon = 'yogstation/icons/obj/medieval.dmi'
+	icon_state = "medieval_spawner"
 	density = TRUE
 	roundstart = FALSE
 	death = FALSE
@@ -16,17 +15,16 @@
 		return H
 	
 /obj/effect/mob_spawn/human/medieval/Destroy()
-	new/obj/structure/fluff/empty_terrarium(get_turf(src))
+	new/obj/structure/bed/medieval(get_turf(src))
 	return ..()
 	
 /datum/outfit/medieval
 	uniform = /obj/item/clothing/under/yogs/peasant
 	
 /obj/effect/mob_spawn/human/medieval/knight
+	name = "covered knightly bed"
 	mob_name = "a knight"
-	flavour_text = "<span class='big bold'>You are a knight,</span><b> an example of the mastery over life that your creators possessed. Your masters, benevolent as they were, created uncounted \
-	seed vaults and spread them across the universe to every planet they could chart. You are in one such seed vault. Your goal is to cultivate and spread life wherever it will go while waiting \
-	for contact from your creators. Estimated time of last contact: Deployment, 5x10^3 millennia ago.</b>"
+	flavour_text = "<span class='big bold'>You are a knight,</span><b> a lord and landowner of the medieval era.  You don't remember what happened except for the vague memories of an angry wizard.  Protect those who serve you and find a new home.  Always use violence as a last resort.</b>"
 	assignedrole = "Knight"
 	outfit = /datum/outfit/medieval/knight
 	
@@ -42,10 +40,9 @@
 	back = /obj/item/melee/medieval/blade/sword
 
 /obj/effect/mob_spawn/human/medieval/peasant
+	name = "covered peasant bed"
 	mob_name = "a peasant"
-	flavour_text = "<span class='big bold'>You are a peasant,</span><b> an example of the mastery over life that your creators possessed. Your masters, benevolent as they were, created uncounted \
-	seed vaults and spread them across the universe to every planet they could chart. You are in one such seed vault. Your goal is to cultivate and spread life wherever it will go while waiting \
-	for contact from your creators. Estimated time of last contact: Deployment, 5x10^3 millennia ago.</b>"
+	flavour_text = "<span class='big bold'>You are a peasant,</span><b> a serf and servant of the medieval era.  All you remember is a wizard being angry at your lord.  Serve your lord in all capacities.</b>"
 	assignedrole = "Peasant"
 	outfit = /datum/outfit/medieval/peasant
 	

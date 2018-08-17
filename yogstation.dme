@@ -2700,6 +2700,7 @@
 #include "yogstation\code\game\objects\items\melee\medieval.dm"
 #include "yogstation\code\game\objects\items\storage\belt.dm"
 #include "yogstation\code\game\objects\structures\ghost_role_spawners.dm"
+#include "yogstation\code\game\objects\structures\beds_chairs\bed.dm"
 #include "yogstation\code\game\objects\structures\beds_chairs\electric_bed.dm"
 #include "yogstation\code\game\objects\structures\crates_lockers\closets\job_closets.dm"
 #include "yogstation\code\game\objects\structures\crates_lockers\closets\secure\medical.dm"
