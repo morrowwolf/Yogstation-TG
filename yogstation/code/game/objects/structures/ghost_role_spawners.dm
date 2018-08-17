@@ -10,6 +10,8 @@
 /obj/effect/mob_spawn/human/medieval/special(mob/living/new_spawn)
 	if(ishuman(new_spawn))
 		var/mob/living/carbon/human/H = new_spawn
+		H.gender = pick(FEMALE, MALE)
+		H.real_name = random_unique_name(H.gender)
 		H.underwear = "Nude"
 		H.update_body()
 		return H
@@ -32,6 +34,7 @@
 	. = ..()
 	if(istype(., /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = .
+		H.real_name = "Sir " + H.real_name
 		H.job = "knight"
 		
 /datum/outfit/medieval/knight
