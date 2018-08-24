@@ -15,6 +15,8 @@
 	force = 5
 	attack_verb = list("struck", "hit", "bashed")
 	var/obj/item/ammo_casing/chambered = null
+	var/semicd
+	var/fire_sound = "bow_2"
 	
 	
 /obj/item/bow/afterattack(atom/target, mob/living/user, flag, params)
@@ -42,20 +44,31 @@
 	if(semicd)
 		return
 	
-	if(!chambered.fire_casing(target, user, params, , suppressed, zone_override, sprd))
-		shoot_with_empty_chamber(user)
+	if(!(/obj/item/ammo_casing/arrow in user.held_items))
+		to_chat(user, "You must be holding an arrow to fire a bow!")
 		return
 	else
+		chambered = user.held_items[user.held_items.find(/obj/item/ammo_casing/arrow)]
+		chambered.fire_casing(target, user, params, , FALSE, zone_override, 0)
 		if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
 			shoot_live_shot(user, 1, target, message)
 		else
 			shoot_live_shot(user, 0, target, message)
+		chambered = null
 	semicd = TRUE
-	addtimer(CALLBACK(src, .proc/reset_semicd), fire_delay)
+	addtimer(CALLBACK(src, .proc/reset_semicd), 1)
 
 	if(user)
 		user.update_inv_hands()
 	return TRUE
 	
-/obj/item/gun/proc/reset_semicd()
+/obj/item/bow/proc/reset_semicd()
 	semicd = FALSE
+	
+/obj/item/bow/proc/shoot_live_shot(mob/living/user as mob|obj, pointblank = 0, mob/pbtarget = null, message = 1)
+	playsound(user, fire_sound, 50, 1)
+	if(message)
+		if(pointblank)
+			user.visible_message("<span class='danger'>[user] fires [src] point blank at [pbtarget]!</span>", null, null, COMBAT_MESSAGE_RANGE)
+		else
+			user.visible_message("<span class='danger'>[user] fires [src]!</span>", null, null, COMBAT_MESSAGE_RANGE)
