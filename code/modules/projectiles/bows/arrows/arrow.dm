@@ -4,7 +4,8 @@
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "arrow"
 	damage = 25
-	var/dropped = FALSE
+	hitsound_wall = ""
+	heavy_metal = FALSE
 	var/ammo_type = /obj/item/ammo_casing/arrow
 	
 /obj/item/projectile/bullet/arrow/on_hit(atom/target, blocked = FALSE)
@@ -21,18 +22,24 @@
 	if(istype(target, /mob/living/))
 		var/mob/living/m = target
 		if(m.butcher_results)
-			m.butcher_results += list(/obj/item/ammo_casing/arrow = 1)
+			/*
+			for(var/i = 1 to m.butcher_results.len)
+				if(istype(m.butcher_results[i], /obj/item/ammo_casing/arrow))
+					m.butcher_results[/obj/item/ammo_casing/arrow] += 1
+					break
+				if(i == m.butcher_results.len)
+					m.butcher_results += list(/obj/item/ammo_casing/arrow = 1)
+			*/
+			if(m.butcher_results[/obj/item/ammo_casing/arrow])
+				m.butcher_results[/obj/item/ammo_casing/arrow] += 1
+			else
+				m.butcher_results += list(/obj/item/ammo_casing/arrow = 1)
 		else
 			m.butcher_results = list(/obj/item/ammo_casing/arrow = 1)
-		dropped = TRUE
 		return
-	if(!dropped)
-		var/turf/T = get_turf(src)
-		new ammo_type(T)
-		dropped = TRUE
+	var/turf/T = get_turf(src)
+	new ammo_type(T)
 
 /obj/item/projectile/bullet/arrow/proc/handle_drop()
-	if(!dropped)
-		var/turf/T = get_turf(src)
-		new ammo_type(T)
-		dropped = TRUE
+	var/turf/T = get_turf(src)
+	new ammo_type(T)

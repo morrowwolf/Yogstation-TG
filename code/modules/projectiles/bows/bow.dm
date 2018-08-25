@@ -46,7 +46,6 @@
 	
 	for(var/i = 1 to user.held_items.len)
 		if(istype(user.held_items[i], /obj/item/ammo_casing/arrow))
-			
 			chambered = user.held_items[i]
 			chambered.fire_casing(target, user, params, , FALSE, zone_override, 0)
 			if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
