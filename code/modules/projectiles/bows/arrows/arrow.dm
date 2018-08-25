@@ -5,7 +5,6 @@
 	icon_state = "arrow"
 	damage = 25
 	hitsound_wall = ""
-	heavy_metal = FALSE
 	var/ammo_type = /obj/item/ammo_casing/arrow
 	
 /obj/item/projectile/bullet/arrow/on_hit(atom/target, blocked = FALSE)

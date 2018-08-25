@@ -8,3 +8,4 @@
 	lefthand_file = 'yogstation/icons/mob/inhands/medieval_lefthand.dmi'
 	force = 10
 	throwforce = 10
+	heavy_metal = FALSE
