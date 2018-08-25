@@ -44,23 +44,28 @@
 	if(semicd)
 		return
 	
-	if(!(/obj/item/ammo_casing/arrow in user.held_items))
-		to_chat(user, "You must be holding an arrow to fire a bow!")
-		return
-	else
-		chambered = user.held_items[user.held_items.find(/obj/item/ammo_casing/arrow)]
-		chambered.fire_casing(target, user, params, , FALSE, zone_override, 0)
-		if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
-			shoot_live_shot(user, 1, target, message)
-		else
-			shoot_live_shot(user, 0, target, message)
-		chambered = null
-	semicd = TRUE
-	addtimer(CALLBACK(src, .proc/reset_semicd), 1)
+	for(var/i = 1 to user.held_items.len)
+		if(istype(user.held_items[i], /obj/item/ammo_casing/arrow))
+			
+			chambered = user.held_items[i]
+			chambered.fire_casing(target, user, params, , FALSE, zone_override, 0)
+			if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
+				shoot_live_shot(user, 1, target, message)
+			else
+				shoot_live_shot(user, 0, target, message)
+			qdel(chambered)
+			chambered = null
+			
+			semicd = TRUE
+			addtimer(CALLBACK(src, .proc/reset_semicd), 1)
 
-	if(user)
-		user.update_inv_hands()
-	return TRUE
+			if(user)
+				user.update_inv_hands()
+			return TRUE
+			
+	to_chat(user, "You must be holding an arrow to fire a bow!")
+	return
+	
 	
 /obj/item/bow/proc/reset_semicd()
 	semicd = FALSE
