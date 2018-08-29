@@ -2255,6 +2255,7 @@
 #include "code\modules\projectiles\ammunition\special\magic.dm"
 #include "code\modules\projectiles\ammunition\special\syringe.dm"
 #include "code\modules\projectiles\bows\bow.dm"
+#include "code\modules\projectiles\bows\quiver.dm"
 #include "code\modules\projectiles\bows\arrows\arrow.dm"
 #include "code\modules\projectiles\boxes_magazines\_box_magazine.dm"
 #include "code\modules\projectiles\boxes_magazines\ammo_boxes.dm"
