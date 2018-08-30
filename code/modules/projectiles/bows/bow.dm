@@ -16,7 +16,7 @@
 	attack_verb = list("struck", "hit", "bashed")
 	var/obj/item/ammo_casing/chambered = null
 	var/semicd
-	var/fire_sound = "bow_2"
+	var/fire_sound = "sound/weapons/bow_2.ogg"
 	
 	
 /obj/item/bow/afterattack(atom/target, mob/living/user, flag, params)
