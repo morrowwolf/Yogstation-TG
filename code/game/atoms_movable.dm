@@ -111,7 +111,7 @@
 
 /atom/movable/proc/Move_Pulled(atom/A)
 	if(!pulling)
-		return
+		return TRUE
 	if(pulling.anchored || !pulling.Adjacent(src))
 		stop_pulling()
 		return

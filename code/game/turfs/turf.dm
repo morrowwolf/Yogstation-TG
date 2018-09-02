@@ -101,7 +101,14 @@
 	. = ..()
 	if(.)
 		return
-	user.Move_Pulled(src)
+	if(user.Move_Pulled(src))
+		//to_chat(user, "[user.double_click_cooldown] and [world.time]")
+		if(user.double_click_cooldown && user.double_click_cooldown >= world.time)
+			//to_chat(user, "DOUBLE CLICK SUCCEED")
+			user.charge(src)
+			user.double_click_cooldown = null
+		else
+			user.double_click_cooldown = world.time + 2
 
 /turf/proc/handleRCL(obj/item/twohanded/rcl/C, mob/user)
 	if(C.loaded)

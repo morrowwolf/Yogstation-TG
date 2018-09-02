@@ -46,7 +46,6 @@ Difficulty: Hard
 	del_on_death = 1
 	crusher_loot = list(/obj/structure/closet/crate/necropolis/bubblegum/crusher)
 	loot = list(/obj/structure/closet/crate/necropolis/bubblegum)
-	var/charging = 0
 	medal_type = BOSS_MEDAL_BUBBLEGUM
 	score_type = BUBBLEGUM_SCORE
 	deathmessage = "sinks into a pool of blood, fleeing the battle. You've won, for now... "
@@ -130,7 +129,7 @@ Difficulty: Hard
 	sleep(10)
 	charge()
 
-/mob/living/simple_animal/hostile/megafauna/bubblegum/proc/charge()
+/mob/living/simple_animal/hostile/megafauna/bubblegum/charge()
 	var/turf/T = get_turf(target)
 	if(!T || T == loc)
 		return

@@ -52,6 +52,7 @@
 #define CLICK_CD_HANDCUFFED 10
 #define CLICK_CD_RESIST 20
 #define CLICK_CD_GRABBING 10
+#define CLICK_CD_CHARGE_HIT_WALL 30
 
 //Cuff resist speeds
 #define FAST_CUFFBREAK 1

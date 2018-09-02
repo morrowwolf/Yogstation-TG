@@ -38,7 +38,6 @@ Difficulty: Medium
 	minimum_distance = 5
 	ranged_cooldown_time = 20
 	var/size = 5
-	var/charging = 0
 	medal_type = BOSS_MEDAL_LEGION
 	score_type = LEGION_SCORE
 	pixel_y = -90
