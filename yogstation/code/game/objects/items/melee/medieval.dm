@@ -3,6 +3,9 @@
 	lefthand_file = 'yogstation/icons/mob/inhands/medieval_lefthand.dmi'
 	righthand_file = 'yogstation/icons/mob/inhands/medieval_righthand.dmi'
 	
+/obj/item/melee/medieval/pre_attack(atom/A, mob/living/user, params)
+	
+	
 /obj/item/melee/medieval/blade
 	sharpness = IS_SHARP
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "cut")
@@ -25,15 +28,3 @@
 	throwforce = 30
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	
-/obj/item/melee/medieval/blade/sword/pickup(mob/user)
-	..()
-	if(!cmptext(user.job, "knight"))
-		force = 15
-		throwforce = 15
-		to_chat(user, "You feel awkward wielding such a elegant weapon.")
-	else
-		force = 30
-		throwforce = 30
-		to_chat(user, "This weapon feels perfect in your hands.")
-			
