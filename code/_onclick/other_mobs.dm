@@ -97,14 +97,11 @@
 	//if(isturf(A) && get_dist(src,A) <= 1)
 		//src.Move_Pulled(A)					//IF PULLING BREAKS RE-ADD THIS SHIT
 
-	if(isturf(A) || istype(A, /obj/structure/) || istype(A, /mob/living/) || istype(A, /obj/machinery))
-		//to_chat(src, "[double_click_cooldown] and [world.time]")
-		if(double_click_cooldown && double_click_cooldown >= world.time)
-			//to_chat(src, "DOUBLE CLICK SUCCEED")
-			charge(A)
-			double_click_cooldown = null
-		else
-			double_click_cooldown = world.time + 2
+	if(double_click_cooldown && double_click_cooldown >= world.time)
+		charge(A)
+		double_click_cooldown = null
+	else
+		double_click_cooldown = world.time + 2
 /*
 	Animals & All Unspecified
 */

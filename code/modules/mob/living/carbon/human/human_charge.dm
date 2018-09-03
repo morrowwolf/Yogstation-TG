@@ -9,8 +9,7 @@
 		charging = TRUE
 		if(get_dist(src,A) < CHARGE_RANGE)
 			var/destination_x = (A.x - x) / sqrt((A.y - y)*(A.y - y) + (A.x - x)*(A.x - x)) * CHARGE_RANGE + x
-			var/destination_y = (A.y - y) / sqrt((A.y - y)*(A.y - y) + (A.x - x)*(A.x - x)) * CHARGE_RANGE + y		//this shit doesn't work, fucking Altoids
-			to_chat(src, "[destination_x] and [destination_y]")
+			var/destination_y = (A.y - y) / sqrt((A.y - y)*(A.y - y) + (A.x - x)*(A.x - x)) * CHARGE_RANGE + y
 			A = locate(round(destination_x, 1), round(destination_y, 1), z)
 		throw_at(A, CHARGE_RANGE, 1, src, FALSE, FALSE, callback = CALLBACK(src, .proc/charge_end))
 	

@@ -4,7 +4,23 @@
 	righthand_file = 'yogstation/icons/mob/inhands/medieval_righthand.dmi'
 	
 /obj/item/melee/medieval/pre_attack(atom/A, mob/living/user, params)
+	if(isturf(A))
+		if(user.double_click_cooldown && user.double_click_cooldown >= world.time)
+			user.charge(A, src)
+			user.double_click_cooldown = null
+		else
+			user.double_click_cooldown = world.time + 2
+		return 0
+	return 1
 	
+/obj/item/melee/medieval/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(proximity_flag)
+		return
+	if(user.double_click_cooldown && user.double_click_cooldown >= world.time)
+		user.charge(target, src)
+		user.double_click_cooldown = null
+	else
+		user.double_click_cooldown = world.time + 2
 	
 /obj/item/melee/medieval/blade
 	sharpness = IS_SHARP
