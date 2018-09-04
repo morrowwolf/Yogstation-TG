@@ -29,22 +29,54 @@
 							"<span class='userdanger'>[src] has charged straight into [A]!</span>", null, COMBAT_MESSAGE_RANGE)
 			
 		else if(istype(A, /mob/living/))
-			var/mob/living/L = A
 			changeNext_move(CLICK_CD_MELEE)
-			src.do_attack_animation(L, ATTACK_EFFECT_PUNCH)
-
-			var/damage = 4*rand(src.dna.species.punchdamagelow, src.dna.species.punchdamagehigh)
-
-			var/obj/item/bodypart/affecting = L.get_bodypart(ran_zone(src.zone_selected))
-
-			var/armor_block = L.run_armor_check(affecting, "melee")
-
-			playsound(L.loc, src.dna.species.attack_sound, 25, 1, -1)
-
-			L.visible_message("<span class='danger'>[src] has charged [L]!</span>", \
-						"<span class='userdanger'>[src] has charged [L]!</span>", null, COMBAT_MESSAGE_RANGE)
-
-			L.apply_damage(damage, BRUTE, affecting, armor_block)
-			log_combat(src, L, "charged")
+			if(get_active_held_item())
+				hitMobItem(A)
+			else
+				hitMobNoItem(A)
 		else
 			changeNext_move(CLICK_CD_CHARGE_MISS)
+			
+/mob/living/carbon/human/proc/hitMobNoItem(mob/living/L)
+	src.do_attack_animation(L, ATTACK_EFFECT_PUNCH)
+
+	var/damage = 3*rand(src.dna.species.punchdamagelow, src.dna.species.punchdamagehigh)
+
+	var/obj/item/bodypart/affecting = L.get_bodypart(ran_zone(src.zone_selected))
+
+	var/armor_block = L.run_armor_check(affecting, "melee")
+
+	playsound(L.loc, src.dna.species.attack_sound, 25, 1, -1)
+
+	L.visible_message("<span class='danger'>[src] has charged [L]!</span>", \
+				"<span class='userdanger'>[src] has charged [L]!</span>", null, COMBAT_MESSAGE_RANGE)
+
+	L.apply_damage(damage, BRUTE, affecting, armor_block)
+	log_combat(src, L, "charged")
+	
+	L.lastattacker = src.real_name
+	L.lastattackerckey = src.ckey
+	
+/mob/living/carbon/human/proc/hitMobItem(mob/living/L)
+	var/obj/item/I = get_active_held_item()
+	
+	src.do_attack_animation(L)
+	
+	var/damage = 3*I.force
+
+	var/obj/item/bodypart/affecting = L.get_bodypart(ran_zone(src.zone_selected))
+
+	var/armor_block = L.run_armor_check(affecting, "melee")
+	
+	if(I.hitsound)
+		playsound(L.loc, I.hitsound, I.get_clamped_volume(), 1, -1)
+
+	L.visible_message("<span class='danger'>[src] has charged [L] with [I]!</span>", \
+				"<span class='userdanger'>[src] has charged [L] with [I]!</span>", null, COMBAT_MESSAGE_RANGE)
+
+	L.apply_damage(damage, BRUTE, affecting, armor_block)
+	log_combat(src, L, "charged", I.name, "(INTENT: [uppertext(src.a_intent)]) (DAMTYPE: [uppertext(I.damtype)])")
+	
+	L.lastattacker = src.real_name
+	L.lastattackerckey = src.ckey
+	I.add_fingerprint(src)
