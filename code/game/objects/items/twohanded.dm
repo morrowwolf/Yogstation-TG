@@ -478,6 +478,7 @@
 /obj/item/twohanded/spear/Initialize()
 	. = ..()
 	AddComponent(/datum/component/butchering, 100, 70) //decent in a pinch, but pretty bad.
+	AddComponent(/datum/component/charge)
 
 /obj/item/twohanded/spear/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] begins to sword-swallow \the [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
@@ -510,7 +511,7 @@
 	if(!proximity)
 		return
 	if(isopenturf(AM)) //So you can actually melee with it
-		return
+		return					//this may or may not be broken by charge component
 	if(explosive && wielded)
 		user.say("[war_cry]")
 		explosive.forceMove(AM)
