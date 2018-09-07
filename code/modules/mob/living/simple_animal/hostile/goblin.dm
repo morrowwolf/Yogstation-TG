@@ -21,6 +21,15 @@
 	
 	del_on_death = TRUE
 	
+	atmos_requirements = list("min_oxy" = 2, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+	unsuitable_atmos_damage = 5
+	minbodytemp = 0
+	maxbodytemp = 1200
+	
+	robust_searching = 1
+	stat_attack = UNCONSCIOUS
+	gold_core_spawnable = NO_SPAWN
+	
 	
 /mob/living/simple_animal/hostile/goblin/New()
 	var/goblin_sprite = pick("goblin_1", "goblin_2")
