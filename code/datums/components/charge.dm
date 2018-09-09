@@ -1,5 +1,5 @@
 /datum/component/charge
-	
+
 /datum/component/charge/Initialize()
 	if(!istype(parent, /obj/item/))
 		return COMPONENT_INCOMPATIBLE

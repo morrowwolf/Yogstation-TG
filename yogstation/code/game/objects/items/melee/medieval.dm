@@ -6,6 +6,7 @@
 /obj/item/melee/medieval/Initialize()
 	. = ..()
 	AddComponent(/datum/component/charge)
+	AddComponent(/datum/component/parry)
 
 /obj/item/melee/medieval/blade
 	sharpness = IS_SHARP
