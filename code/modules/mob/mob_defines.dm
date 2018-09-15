@@ -83,6 +83,8 @@
 	
 	var/charging = FALSE
 	var/charge_cooldown
+	
+	var/parry_cooldown
 
 //The last mob/living/carbon to push/drag/grab this mob (mostly used by slimes friend recognition)
 	var/mob/living/carbon/LAssailant = null

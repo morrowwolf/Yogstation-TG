@@ -398,3 +398,19 @@
 		used_item = get_active_held_item()
 	..()
 	floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
+
+/mob/living/proc/parry(obj/item/I, mob/living/user)
+	if(!(get_active_held_item() && get_active_held_item().datum_components && get_active_held_item().datum_components.Find(/datum/component/parry) && get_active_held_item().datum_components.Find(/datum/component/parry).parry))
+		return FALSE
+	
+	playsound(get_turf(user), 'sound/effects/parry.ogg', 80)
+	if(I)
+		visible_message("<span class='danger'>[src] has parried [user]'s [I] with [get_active_held_item()].</span>",\
+			"<span class='userdanger'>[src] has parried [user]'s [I] with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
+	else
+		visible_message("<span class='danger'>[src] has parried [user]'s attack with [get_active_held_item()].</span>",\
+			"<span class='userdanger'>[src] has parried [user]'s attack with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
+		
+	user.changeNext_move(CLICK_CD_PARRYED)
+	
+	return TRUE

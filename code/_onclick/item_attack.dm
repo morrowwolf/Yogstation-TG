@@ -99,7 +99,10 @@
 	take_damage(I.force, I.damtype, "melee", 1)
 
 /mob/living/attacked_by(obj/item/I, mob/living/user)
+	if(parry(I, user))
+		return FALSE
 	send_item_attack_message(I, user)
+	
 	if(I.force)
 		apply_damage(I.force, I.damtype)
 		if(I.damtype == BRUTE)
