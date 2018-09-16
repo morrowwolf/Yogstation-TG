@@ -16,7 +16,7 @@
 	parry = 1
 	user.add_overlay(icon('icons/effects/medieval.dmi', "parry1"))
 	playsound(get_turf(user), 'sound/effects/parry.ogg', 50)
-	addtimer(CALLBACK(src, .proc/parry_end, user), 5)
+	addtimer(CALLBACK(src, .proc/parry_end, user), 10)
 	
 /datum/component/parry/proc/parry_end(mob/living/carbon/user)
 	user.cut_overlay(icon('icons/effects/medieval.dmi', "parry1"))
