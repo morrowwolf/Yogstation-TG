@@ -84,6 +84,7 @@
 	var/charging = FALSE
 	var/charge_cooldown
 	
+	var/parrying = FALSE
 	var/parry_cooldown
 
 //The last mob/living/carbon to push/drag/grab this mob (mostly used by slimes friend recognition)
