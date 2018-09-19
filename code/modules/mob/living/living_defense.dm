@@ -403,7 +403,7 @@
 	if(!parrying)
 		return FALSE
 	
-	playsound(get_turf(user), 'sound/effects/parry.ogg', 80, 1)
+	playsound(get_turf(user), 'sound/effects/parry.ogg', 100, 1)
 	if(I)
 		visible_message("<span class='danger'>[src] has parried [user]'s [I] with [get_active_held_item()].</span>",\
 			"<span class='userdanger'>[src] has parried [user]'s [I] with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
@@ -412,5 +412,6 @@
 			"<span class='userdanger'>[src] has parried [user]'s attack with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
 		
 	user.changeNext_move(CLICK_CD_PARRYED)
+	log_combat(src, user, "parried")
 	
 	return TRUE
