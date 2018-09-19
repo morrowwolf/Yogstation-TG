@@ -99,7 +99,7 @@
 	take_damage(I.force, I.damtype, "melee", 1)
 
 /mob/living/attacked_by(obj/item/I, mob/living/user)
-	if(parry(I, user))
+	if(parry(user, I))
 		return FALSE
 	send_item_attack_message(I, user)
 	
