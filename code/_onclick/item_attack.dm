@@ -72,6 +72,8 @@
 	M.lastattackerckey = user.ckey
 
 	user.do_attack_animation(M)
+	if(M.parry(user, src))
+		return FALSE
 	M.attacked_by(src, user)
 
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
@@ -99,8 +101,6 @@
 	take_damage(I.force, I.damtype, "melee", 1)
 
 /mob/living/attacked_by(obj/item/I, mob/living/user)
-	if(parry(user, I))
-		return FALSE
 	send_item_attack_message(I, user)
 	
 	if(I.force)
