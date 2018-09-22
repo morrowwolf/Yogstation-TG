@@ -28,7 +28,7 @@
 	else
 		user.blocking = TRUE
 		icon_state = icon_state_up
-		user.block_dir = dir
+		user.block_dir = user.dir
 	
 /obj/item/shield/medieval/dropped(mob/user)
 	if(user.blocking)
