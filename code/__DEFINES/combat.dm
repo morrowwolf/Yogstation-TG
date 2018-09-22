@@ -55,6 +55,7 @@
 #define CLICK_CD_CHARGE_HIT_WALL 30
 #define CLICK_CD_CHARGE_MISS 30
 #define CLICK_CD_PARRYED 25
+#define CLICK_CD_BLOCKED 25
 
 
 //Cuff resist speeds

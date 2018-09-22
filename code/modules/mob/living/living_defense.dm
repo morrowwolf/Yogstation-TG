@@ -399,7 +399,7 @@
 	..()
 	floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
 
-/mob/living/proc/parry(mob/living/user, obj/item/I)
+/mob/living/proc/check_parry(mob/living/user, obj/item/I)
 	if(!parrying)
 		return FALSE
 	
@@ -413,5 +413,39 @@
 		
 	user.changeNext_move(CLICK_CD_PARRYED)
 	log_combat(src, user, "parried")
+	
+	return TRUE
+	
+/mob/living/proc/check_shield_block(mob/living/user, obj/item/I)
+	if(!blocking)
+		return FALSE
+		
+	var/blocked = FALSE
+		
+	if(block_dir == 1)			//checks if user above src
+		if(user.y - 1 == y)
+			blocked = TRUE
+	else if(block_dir == 2)		//checks if user below src
+		if(user.y + 1 == y)
+			blocked = TRUE
+	else if(block_dir == 4)		//checks if user right of src
+		if(user.x - 1 == x)
+			blocked = TRUE
+	else if(block_dir == 8)		//checks if user left of src
+		if(user.x + 1 == x)
+			blocked = TRUE
+	
+	if(!blocked)
+		return
+	
+	if(I)
+		visible_message("<span class='danger'>[src] has blocked [user]'s [I] with [get_active_held_item()].</span>",\
+			"<span class='userdanger'>[src] has blocked [user]'s [I] with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
+	else
+		visible_message("<span class='danger'>[src] has blocked [user]'s attack with [get_active_held_item()].</span>",\
+			"<span class='userdanger'>[src] has blocked [user]'s attack with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
+			
+	user.changeNext_move(CLICK_CD_BLOCKED)
+	log_combat(src, user, "blocked")
 	
 	return TRUE

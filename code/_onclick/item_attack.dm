@@ -67,7 +67,7 @@
 	M.lastattackerckey = user.ckey
 
 	user.do_attack_animation(M)
-	if(M.parry(user, src))
+	if(M.check_parry(user, src) || M.check_shield_block(user,src))
 		return FALSE
 	M.attacked_by(src, user)
 	

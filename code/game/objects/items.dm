@@ -787,3 +787,5 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if (item_flags & NODROP)
 		return
 	return ..()
+
+/obj/item/proc/on_swap_hand(mob/living/carbon/user)		//return true to stop swap_hand

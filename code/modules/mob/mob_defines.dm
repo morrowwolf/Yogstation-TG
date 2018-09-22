@@ -86,6 +86,9 @@
 	
 	var/parrying = FALSE
 	var/parry_cooldown
+	
+	var/blocking = FALSE
+	var/block_dir
 
 //The last mob/living/carbon to push/drag/grab this mob (mostly used by slimes friend recognition)
 	var/mob/living/carbon/LAssailant = null

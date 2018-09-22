@@ -48,8 +48,12 @@
 		held_index = (active_hand_index % held_items.len)+1
 
 	var/obj/item/item_in_hand = src.get_active_held_item()
-	if(item_in_hand) //this segment checks if the item in your hand is twohanded.
-		var/obj/item/twohanded/TH = item_in_hand
+	
+	if(item_in_hand) 
+		if(item_in_hand.on_swap_hand(src))
+			return
+		
+		var/obj/item/twohanded/TH = item_in_hand	//this segment checks if the item in your hand is twohanded.
 		if(istype(TH))
 			if(TH.wielded == 1)
 				to_chat(usr, "<span class='warning'>Your other hand is too busy holding [TH]</span>")
@@ -64,7 +68,6 @@
 		H = hud_used.hand_slots["[held_index]"]
 		if(H)
 			H.update_icon()
-
 
 /mob/living/carbon/activate_hand(selhand) //l/r OR 1-held_items.len
 	if(!selhand)
