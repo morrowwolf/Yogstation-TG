@@ -1,4 +1,6 @@
 /mob/CanPass(atom/movable/mover, turf/target)
+	if(blocking)
+		return FALSE
 	if((mover.pass_flags & PASSMOB))
 		return TRUE
 	if(istype(mover, /obj/item/projectile) || mover.throwing)
