@@ -26,7 +26,7 @@
 					blocked = TRUE
 					
 			if(blocked)
-				playsound(get_turf(L), 'sound/weapons/effects/shield_block_2.ogg', 80, 1, -1)
+				playsound(get_turf(L), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
 				L.visible_message("<span class='danger'>[L] has blocked [src]!</span>", \
 					"<span class='userdanger'>[L] has blocked [src]!</span>", null, COMBAT_MESSAGE_RANGE)
 				handle_drop()

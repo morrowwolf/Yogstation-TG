@@ -36,9 +36,8 @@
 	var/goblin_sprite = pick("goblin_1", "goblin_2")
 	icon_state = goblin_sprite
 	icon_living = goblin_sprite
-	icon_dead = goblin_sprite
 	return ..()
 	
 /mob/living/simple_animal/hostile/goblin/death(gibbed)
-	add_splatter_floor(get_turf(src))
+	new /obj/effect/decal/cleanable/blood/splatter(get_turf(src), get_static_viruses())
 	return ..()
