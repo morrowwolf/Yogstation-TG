@@ -445,7 +445,7 @@
 		visible_message("<span class='danger'>[src] has blocked [user]'s attack with [get_active_held_item()].</span>",\
 			"<span class='userdanger'>[src] has blocked [user]'s attack with [get_active_held_item()].</span>", null, COMBAT_MESSAGE_RANGE)
 	
-	playsound(get_turf(user), 'sound/weapons/effects/shield_block_2.ogg', 80)
+	playsound(get_turf(user), 'sound/weapons/effects/shield_block_2.ogg', 80, 1, -1)
 	user.changeNext_move(CLICK_CD_BLOCKED)
 	log_combat(src, user, "blocked")
 	
