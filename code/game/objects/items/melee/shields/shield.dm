@@ -25,17 +25,20 @@
 		user.blocking = FALSE
 		icon_state = icon_state_down
 		user.block_dir = null
+		user.update_icons()
 	else
 		user.blocking = TRUE
 		icon_state = icon_state_up
 		user.block_dir = user.dir
+		user.update_icons()
 	
 /obj/item/shield/medieval/dropped(mob/user)
 	if(user.blocking)
 		user.blocking = FALSE
 		icon_state = icon_state_down
 		user.block_dir = null
-	..(user)
+		user.update_icons()
+	return ..(user)
 	
 /obj/item/shield/medieval/doMove(atom/destination)
 	if(istype(loc, /mob/))
@@ -44,13 +47,15 @@
 			user.blocking = FALSE
 			icon_state = icon_state_down
 			user.block_dir = null
-	..(destination)
+			user.update_icons()
+	return ..(destination)
 	
 /obj/item/shield/medieval/on_swap_hand(mob/living/carbon/user)
 	if(user.blocking)
 		user.blocking = FALSE
 		icon_state = icon_state_down
 		user.block_dir = null
+		user.update_icons()
 	
 	return FALSE
 	
