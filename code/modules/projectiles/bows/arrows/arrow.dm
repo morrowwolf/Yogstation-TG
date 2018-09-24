@@ -12,16 +12,16 @@
 		var/mob/living/L = target
 		if(L.blocking)
 			var/hitFrom = get_dir(starting, L)
-			if(L.block_dir == 1)
+			if(L.block_dir == 2)
 				if(hitFrom == NORTH || hitFrom == NORTHEAST || hitFrom == NORTHWEST)
 					blocked = TRUE
-			else if(L.block_dir == 2)
+			else if(L.block_dir == 1)
 				if(hitFrom == SOUTH || hitFrom == SOUTHEAST || hitFrom == SOUTHWEST)
 					blocked = TRUE
-			else if(L.block_dir == 4)
+			else if(L.block_dir == 8)
 				if(hitFrom == EAST || hitFrom == NORTHEAST || hitFrom == SOUTHEAST)
 					blocked = TRUE
-			else if(L.block_dir == 8)
+			else if(L.block_dir == 4)
 				if(hitFrom == WEST || hitFrom == NORTHWEST || hitFrom == SOUTHWEST)
 					blocked = TRUE
 					
