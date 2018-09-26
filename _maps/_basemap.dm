@@ -12,6 +12,7 @@
 		#include "map_files\PubbyStation\PubbyStation.dmm"
 		#include "map_files\BoxStation\BoxStation.dmm"
 		#include "map_files\YogStation\Yogstation.dmm"
+		#include "map_files\BaronyDebug\BaronyDebug.dmm"
 
 		#ifdef TRAVISBUILDING
 			#include "templates.dm"

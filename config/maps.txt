@@ -12,8 +12,11 @@ Format:
 	disabled (disables the map)
 endmap
 
-map yogstation
+map BaronyDebug
 	default
+endmap
+
+map yogstation
 	voteweight 1.5
 endmap
 
