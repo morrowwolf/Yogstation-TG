@@ -57,4 +57,82 @@
 		return TRUE
 	
 	return FALSE
+
+/obj/item/shields/medieval/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	if(!owner.blocking)
+		return FALSE
+		
+	if(attack_type == MELEE_ATTACK)
 	
+		if(!istype(hitby, /mob/living/))
+			return FALSE
+		
+		var/mob/living/mobhitby = hitby
+		
+		var/blocked = FALSE
+		
+		if(owner.block_dir == 1)			//checks if mobhitby above src
+			if(mobhitby.y - 1 == owner.y)
+				blocked = TRUE
+		else if(owner.block_dir == 2)		//checks if mobhitby below src
+			if(mobhitby.y + 1 == owner.y)
+				blocked = TRUE
+		else if(owner.block_dir == 4)		//checks if mobhitby right of src
+			if(mobhitby.x - 1 == owner.x)
+				blocked = TRUE
+		else if(owner.block_dir == 8)		//checks if mobhitby left of src
+			if(mobhitby.x + 1 == owner.x)
+				blocked = TRUE
+	
+		if(!blocked)
+			return
+			
+		var/obj/item/hitby_held_item = mobhitby.get_active_held_item()
+	
+		if(hitby_held_item)
+			visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>",\
+				"<span class='userdanger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>", null, COMBAT_MESSAGE_RANGE)
+		else
+			visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s attack with [src].</span>",\
+				"<span class='userdanger'>[owner] has blocked [mobhitby]'s attack with [src].</span>", null, COMBAT_MESSAGE_RANGE)
+	
+		playsound(get_turf(owner), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
+		mobhitby.changeNext_move(CLICK_CD_BLOCKED)
+		log_combat(owner, mobhitby, "blocked")
+	
+		return TRUE
+		
+	else if(attack_type == PROJECTILE_ATTACK)
+		
+		if(!istype(hitby, /obj/item/projectile/bullet/))
+			return FALSE
+			
+		var/obj/item/projectile/bullet/projhitby = hitby
+	
+		var/blocked = FALSE
+		
+		if(owner.blocking)
+			var/hitFrom = get_dir(projhitby.starting, owner)
+			if(owner.block_dir == 2)
+				if(hitFrom == NORTH || hitFrom == NORTHEAST || hitFrom == NORTHWEST)
+					blocked = TRUE
+			else if(owner.block_dir == 1)
+				if(hitFrom == SOUTH || hitFrom == SOUTHEAST || hitFrom == SOUTHWEST)
+					blocked = TRUE
+			else if(owner.block_dir == 8)
+				if(hitFrom == EAST || hitFrom == NORTHEAST || hitFrom == SOUTHEAST)
+					blocked = TRUE
+			else if(owner.block_dir == 4)
+				if(hitFrom == WEST || hitFrom == NORTHWEST || hitFrom == SOUTHWEST)
+					blocked = TRUE
+					
+			if(blocked)
+				playsound(get_turf(owner), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
+				owner.visible_message("<span class='danger'>[owner] has blocked [projhitby]!</span>", \
+					"<span class='userdanger'>[owner] has blocked [projhitby]!</span>", null, COMBAT_MESSAGE_RANGE)
+				log_combat(owner, projhitby, "blocked")
+				return TRUE
+
+		
+		
+		

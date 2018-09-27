@@ -1183,8 +1183,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(target.check_block())
 		target.visible_message("<span class='warning'>[target] blocks [user]'s attack!</span>")
 		return FALSE
-	if(target.check_parry(user) || target.check_shield_block(user))
-		return FALSE
 	if(attacker_style && attacker_style.harm_act(user,target))
 		return TRUE
 	else
