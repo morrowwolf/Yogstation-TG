@@ -19,9 +19,10 @@
 	addtimer(CALLBACK(src, .proc/parry_end, user), 10)
 	
 /datum/component/parry/proc/parry_end(mob/living/carbon/user)
-	user.cut_overlay(icon('icons/effects/medieval.dmi', "parry1"))
+	if(user.parrying)
+		user.cut_overlay(icon('icons/effects/medieval.dmi', "parry1"))
 
-	user.parrying = FALSE
+		user.parrying = FALSE
 	
 /datum/component/parry/proc/hit_react(list/args)
 	var/mob/living/carbon/human/owner = args[1]
@@ -31,13 +32,16 @@
 	if(!owner.parrying)
 		return FALSE
 		
-	if(attack_type != MELEE_ATTACK)
+	if(attack_type != MELEE_ATTACK && attack_type != UNARMED_ATTACK)
 		return FALSE
 		
+	var/mob/living/mobhitby
+	
 	if(!istype(hitby, /mob/living/))
-		return FALSE
+		mobhitby = hitby.loc
+	else
+		mobhitby = hitby
 		
-	var/mob/living/mobhitby = hitby
 	var/obj/item/hitby_held_item = mobhitby.get_active_held_item()
 	var/obj/item/held_item = owner.get_active_held_item()
 	
@@ -51,5 +55,7 @@
 		
 	mobhitby.changeNext_move(CLICK_CD_PARRYED)
 	log_combat(owner, mobhitby, "parried")
+	
+	parry_end(owner)
 	
 	return TRUE

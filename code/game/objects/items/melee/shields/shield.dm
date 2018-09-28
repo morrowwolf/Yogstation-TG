@@ -62,12 +62,14 @@
 	if(!owner.blocking)
 		return FALSE
 		
-	if(attack_type == MELEE_ATTACK)
+	if(attack_type == MELEE_ATTACK || attack_type == UNARMED_ATTACK)
+	
+		var/mob/living/mobhitby = null
 	
 		if(!istype(hitby, /mob/living/))
-			return FALSE
-		
-		var/mob/living/mobhitby = hitby
+			mobhitby = hitby.loc
+		else
+			mobhitby = hitby
 		
 		var/blocked = FALSE
 		
