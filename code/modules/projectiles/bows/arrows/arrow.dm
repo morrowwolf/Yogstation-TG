@@ -8,8 +8,8 @@
 	var/ammo_type = /obj/item/ammo_casing/arrow
 	
 /obj/item/projectile/bullet/arrow/on_hit(atom/target, blocked = FALSE)
-	handle_drop_with_reference(target)
-	. = ..()						
+	. = ..()
+	handle_drop_with_reference(target)				
 	
 /obj/item/projectile/bullet/arrow/on_range()
 	handle_drop()
