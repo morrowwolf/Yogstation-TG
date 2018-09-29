@@ -67,7 +67,8 @@
 	M.lastattackerckey = user.ckey
 
 	user.do_attack_animation(M)
-	M.attacked_by(src, user)
+	if(!M.attacked_by(src, user))
+		return
 	
 	if(!force)
 		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), 1, -1)
