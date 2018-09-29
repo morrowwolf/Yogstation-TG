@@ -46,11 +46,11 @@
 	var/obj/item/held_item = owner.get_active_held_item()
 	
 	playsound(get_turf(owner), 'sound/effects/parry.ogg', 100, 1)
-	if(held_item)
-		hitby.visible_message("<span class='danger'>[owner] has parried [mobhitby]'s [hitby_held_item] with [held_item].</span>",\
+	if(hitby_held_item)
+		owner.visible_message("<span class='danger'>[owner] has parried [mobhitby]'s [hitby_held_item] with [held_item].</span>",\
 			"<span class='userdanger'>[owner] has parried [mobhitby]'s [hitby_held_item] with [held_item].</span>", null, COMBAT_MESSAGE_RANGE)
 	else
-		hitby.visible_message("<span class='danger'>[owner] has parried [mobhitby]'s attack with [held_item].</span>",\
+		owner.visible_message("<span class='danger'>[owner] has parried [mobhitby]'s attack with [held_item].</span>",\
 			"<span class='userdanger'>[owner] has parried [mobhitby]'s attack with [held_item].</span>", null, COMBAT_MESSAGE_RANGE)
 		
 	mobhitby.changeNext_move(CLICK_CD_PARRYED)

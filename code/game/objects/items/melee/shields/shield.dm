@@ -92,10 +92,10 @@
 		var/obj/item/hitby_held_item = mobhitby.get_active_held_item()
 	
 		if(hitby_held_item)
-			visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>",\
+			owner.visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>",\
 				"<span class='userdanger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>", null, COMBAT_MESSAGE_RANGE)
 		else
-			visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s attack with [src].</span>",\
+			owner.visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s attack with [src].</span>",\
 				"<span class='userdanger'>[owner] has blocked [mobhitby]'s attack with [src].</span>", null, COMBAT_MESSAGE_RANGE)
 	
 		playsound(get_turf(owner), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
