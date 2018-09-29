@@ -113,20 +113,22 @@
 	
 		var/blocked = FALSE
 		
-		if(owner.blocking)
-			var/hitFrom = get_dir(projhitby.starting, owner)
-			if(owner.block_dir == 2)
-				if(hitFrom == NORTH || hitFrom == NORTHEAST || hitFrom == NORTHWEST)
-					blocked = TRUE
-			else if(owner.block_dir == 1)
-				if(hitFrom == SOUTH || hitFrom == SOUTHEAST || hitFrom == SOUTHWEST)
-					blocked = TRUE
-			else if(owner.block_dir == 8)
-				if(hitFrom == EAST || hitFrom == NORTHEAST || hitFrom == SOUTHEAST)
-					blocked = TRUE
-			else if(owner.block_dir == 4)
-				if(hitFrom == WEST || hitFrom == NORTHWEST || hitFrom == SOUTHWEST)
-					blocked = TRUE
+		if(!owner.blocking)
+			return FALSE
+			
+		var/hitFrom = get_dir(projhitby.starting, owner)
+		if(owner.block_dir == 2)
+			if(hitFrom == NORTH || hitFrom == NORTHEAST || hitFrom == NORTHWEST)
+				blocked = TRUE
+		else if(owner.block_dir == 1)
+			if(hitFrom == SOUTH || hitFrom == SOUTHEAST || hitFrom == SOUTHWEST)
+				blocked = TRUE
+		else if(owner.block_dir == 8)
+			if(hitFrom == EAST || hitFrom == NORTHEAST || hitFrom == SOUTHEAST)
+				blocked = TRUE
+		else if(owner.block_dir == 4)
+			if(hitFrom == WEST || hitFrom == NORTHWEST || hitFrom == SOUTHWEST)
+				blocked = TRUE
 					
 			if(blocked)
 				playsound(get_turf(owner), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
