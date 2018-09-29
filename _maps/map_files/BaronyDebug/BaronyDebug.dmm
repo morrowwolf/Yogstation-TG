@@ -1,31 +1,36 @@
 "a" = (/turf/open/floor/grass,/area/barony)
-"b" = (/obj/effect/landmark/observer_start,/obj/effect/landmark/latejoin,/turf/open/floor/grass,/area/barony)
+"b" = (/turf/open/space/basic,/area/space)
 "c" = (/turf/closed/indestructible/rock,/area/barony)
+"d" = (/obj/effect/landmark/latejoin,/obj/effect/landmark/observer_start,/turf/open/floor/grass,/area/barony)
 
 (1,1,1) = {"
-ccccccccccccccccccccccccc
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaabaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-caaaaaaaaaaaaaaaaaaaaaaac
-ccccccccccccccccccccccccc
+bbbbccccccccccccccccccccccccc
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaadaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbcaaaaaaaaaaaaaaaaaaaaaaac
+bbbbccccccccccccccccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 "}

@@ -92,8 +92,8 @@
 		var/obj/item/hitby_held_item = mobhitby.get_active_held_item()
 	
 		if(hitby_held_item)
-			owner.visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>",\
-				"<span class='userdanger'>[owner] has blocked [mobhitby]'s [hitby_held_item] with [src].</span>", null, COMBAT_MESSAGE_RANGE)
+			owner.visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s [hitby_held_item.name] with [src].</span>",\
+				"<span class='userdanger'>[owner] has blocked [mobhitby]'s [hitby_held_item.name] with [src].</span>", null, COMBAT_MESSAGE_RANGE)
 		else
 			owner.visible_message("<span class='danger'>[owner] has blocked [mobhitby]'s attack with [src].</span>",\
 				"<span class='userdanger'>[owner] has blocked [mobhitby]'s attack with [src].</span>", null, COMBAT_MESSAGE_RANGE)
@@ -130,12 +130,14 @@
 			if(hitFrom == WEST || hitFrom == NORTHWEST || hitFrom == SOUTHWEST)
 				blocked = TRUE
 					
-			if(blocked)
-				playsound(get_turf(owner), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
-				owner.visible_message("<span class='danger'>[owner] has blocked [projhitby]!</span>", \
-					"<span class='userdanger'>[owner] has blocked [projhitby]!</span>", null, COMBAT_MESSAGE_RANGE)
-				log_combat(owner, projhitby, "blocked")
-				return TRUE
+		if(!blocked)
+			return FALSE
+				
+		playsound(get_turf(owner), 'sound/weapons/effects/shield_block_2.ogg', 150, 1, -1)
+		owner.visible_message("<span class='danger'>[owner] has blocked [projhitby]!</span>", \
+			"<span class='userdanger'>[owner] has blocked [projhitby]!</span>", null, COMBAT_MESSAGE_RANGE)
+		log_combat(owner, projhitby, "blocked")
+		return TRUE
 
 		
 		
