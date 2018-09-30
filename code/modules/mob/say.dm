@@ -117,3 +117,23 @@
 		return GLOB.department_radio_keys[key_symbol]
 	else if(key == "!")
 		return MODE_YELL
+
+/mob/proc/set_yell_dir(heard_dir)
+	var/message_add = " heard from the "
+	switch(heard_dir)
+		if(NORTH)
+			return message_add + "North"
+		if(NORTHEAST)
+			return message_add + "Northeast"
+		if(EAST)
+			return message_add + "East"
+		if(SOUTHEAST)
+			return message_add + "Southeast"
+		if(SOUTH)
+			return message_add + "South"
+		if(SOUTHWEST)
+			return message_add + "Southwest"
+		if(WEST)
+			return message_add + "West"
+		if(NORTHWEST)
+			return message_add + "Northwest"

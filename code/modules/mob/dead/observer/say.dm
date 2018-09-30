@@ -35,5 +35,7 @@
 	var/link = FOLLOW_LINK(src, to_follow)
 	// Recompose the message, because it's scrambled by default
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode)
+	if(message_mode == MODE_YELL && get_dist(src, speaker) > 7)
+		message += set_yell_dir(get_dir(src, speaker))
 	to_chat(src, "[link] [message]")
 
