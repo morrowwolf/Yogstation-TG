@@ -119,7 +119,7 @@
 		return MODE_YELL
 
 /mob/proc/set_yell_dir(heard_dir)
-	var/message_add = " heard from the "
+	var/message_add = " to the "
 	switch(heard_dir)
 		if(NORTH)
 			return message_add + "North"
