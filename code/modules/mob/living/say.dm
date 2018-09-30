@@ -98,7 +98,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/original_message = message
 	var/in_critical = InCritical()
 
-	if(one_character_prefix[message_mode])
+	if(one_character_prefix[message_mode] || message_mode == MODE_YELL)
 		message = copytext(message, 2)
 	else if(message_mode || saymode)
 		message = copytext(message, 3)
@@ -173,6 +173,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			last_words = message
 			message_mode = MODE_WHISPER_CRIT
 			succumbed = TRUE
+	else if(message_mode == MODE_YELL)
+		message_range = 21
 	else
 		src.log_talk(message, LOG_SAY)
 
@@ -235,6 +237,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/eavesdrop_range = 0
 	if(eavesdropping_modes[message_mode])
 		eavesdrop_range = EAVESDROP_EXTRA_RANGE
+	
 	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)
 	var/list/the_dead = list()
 	for(var/_M in GLOB.player_list)
@@ -379,6 +382,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		. = "stammers"
 	else if(derpspeech)
 		. = "gibbers"
+	else if(message_mode == MODE_YELL)
+		. = "yells"
 	else
 		. = ..()
 
