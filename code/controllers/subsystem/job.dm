@@ -38,6 +38,8 @@ SUBSYSTEM_DEF(job)
 		JobDebug("Overflow role set to : [new_overflow_role]")
 
 /datum/controller/subsystem/job/proc/SetupOccupations(faction = "Station")
+	if(cmptext(SSmapping.config.map_name, "BaronyArena"))
+		faction = "Arena"
 	occupations = list()
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
