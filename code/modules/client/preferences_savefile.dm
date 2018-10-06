@@ -283,6 +283,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_engsec_high"]	>> job_engsec_high
 	S["job_engsec_med"]		>> job_engsec_med
 	S["job_engsec_low"]		>> job_engsec_low
+	S["job_arena_high"]		>> job_arena_high
+	S["job_arena_med"]		>> job_arena_med
+	S["job_arena_low"]		>> job_arena_low
 
 	//Quirks
 	S["all_quirks"]			>> all_quirks
@@ -353,6 +356,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	job_engsec_high = sanitize_integer(job_engsec_high, 0, 65535, initial(job_engsec_high))
 	job_engsec_med = sanitize_integer(job_engsec_med, 0, 65535, initial(job_engsec_med))
 	job_engsec_low = sanitize_integer(job_engsec_low, 0, 65535, initial(job_engsec_low))
+	job_arena_high = sanitize_integer(job_arena_high, 0, 65535, initial(job_arena_high))
+	job_arena_med = sanitize_integer(job_arena_med, 0, 65535, initial(job_arena_med))
+	job_arena_low = sanitize_integer(job_arena_low, 0, 65535, initial(job_arena_low))
 
 	all_quirks = SANITIZE_LIST(all_quirks)
 	positive_quirks = SANITIZE_LIST(positive_quirks)
@@ -419,6 +425,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["job_engsec_high"]	, job_engsec_high)
 	WRITE_FILE(S["job_engsec_med"]		, job_engsec_med)
 	WRITE_FILE(S["job_engsec_low"]		, job_engsec_low)
+	WRITE_FILE(S["job_arena_high"]	, job_arena_high)
+	WRITE_FILE(S["job_arena_med"]		, job_arena_med)
+	WRITE_FILE(S["job_arena_low"]		, job_arena_low)
 
 	//Quirks
 	WRITE_FILE(S["all_quirks"]			, all_quirks)

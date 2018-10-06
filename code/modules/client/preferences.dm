@@ -95,6 +95,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/job_engsec_high = 0
 	var/job_engsec_med = 0
 	var/job_engsec_low = 0
+	
+	var/job_arena_high = 0
+	var/job_arena_med = 0
+	var/job_arena_low = 0
 
 		// Want randomjob if preferences already filled - Donkie
 	var/joblessrole = BERANDOMJOB  //defaults to 1 for fewer assistants
@@ -842,9 +846,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		job_civilian_med |= job_civilian_high
 		job_engsec_med |= job_engsec_high
 		job_medsci_med |= job_medsci_high
+		job_arena_med |= job_arena_high
 		job_civilian_high = 0
 		job_engsec_high = 0
 		job_medsci_high = 0
+		job_arena_high = 0
 
 	if (job.department_flag == CIVILIAN)
 		job_civilian_low &= ~job.flag
@@ -888,7 +894,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				job_medsci_low |= job.flag
 
 		return 1
+	else if (job.department_flag == ARENA)
+		job_arena_low &= ~job.flag
+		job_arena_med &= ~job.flag
+		job_arena_high &= ~job.flag
 
+		switch(level)
+			if (1)
+				job_arena_high |= job.flag
+			if (2)
+				job_arena_med |= job.flag
+			if (3)
+				job_arena_low |= job.flag
+
+		return 1
 	return 0
 
 /datum/preferences/proc/UpdateJobPreference(mob/user, role, desiredLvl)
@@ -933,6 +952,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	job_engsec_high = 0
 	job_engsec_med = 0
 	job_engsec_low = 0
+	
+	job_arena_high = 0
+	job_arena_med = 0
+	job_arena_low = 0
 
 
 /datum/preferences/proc/GetJobDepartment(datum/job/job, level)
@@ -963,6 +986,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					return job_engsec_med
 				if(3)
 					return job_engsec_low
+		if(ARENA)
+			switch(level)
+				if(1)
+					return job_arena_high
+				if(2)
+					return job_arena_med
+				if(3)
+					return job_arena_low
 	return 0
 
 /datum/preferences/proc/SetQuirks(mob/user)
