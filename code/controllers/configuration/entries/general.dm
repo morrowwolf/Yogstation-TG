@@ -170,16 +170,16 @@
 /datum/config_entry/string/banappeals
 
 /datum/config_entry/string/wikiurl
-	config_entry_value = "https://wiki.yogstation.net/" // yogs - Old Tickets
+	config_entry_value = "https://discord.gg/CqrVvRZ" // yogs - Old Tickets
 
 /datum/config_entry/string/forumurl
-	config_entry_value = "https://forums.yogstation.net/index.php" // yogs - Old Tickets
+	config_entry_value = "https://discord.gg/CqrVvRZ" // yogs - Old Tickets
 
 /datum/config_entry/string/rulesurl
-	config_entry_value = "https://forums.yogstation.net/index.php?pages/rules/" // yogs - Old Tickets
+	config_entry_value = "https://discord.gg/CqrVvRZ" // yogs - Old Tickets
 
 /datum/config_entry/string/githuburl
-	config_entry_value = "https://github.com/yogstation13/Yogstation-TG" // yogs - Old Tickets
+	config_entry_value = "https://discord.gg/CqrVvRZ" // yogs - Old Tickets
 
 /datum/config_entry/string/roundstatsurl
 
