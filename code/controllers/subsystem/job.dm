@@ -77,16 +77,12 @@ SUBSYSTEM_DEF(job)
 	if(player && player.mind && rank)
 		var/datum/job/job = GetJob(rank)
 		if(!job)
-			to_chat(player, "1")
 			return FALSE
 		if(jobban_isbanned(player, rank) || QDELETED(player))
-			to_chat(player, "2")
 			return FALSE
 		if(!job.player_old_enough(player.client))
-			to_chat(player, "3")
 			return FALSE
 		if(job.required_playtime_remaining(player.client))
-			to_chat(player, "4")
 			return FALSE
 		var/position_limit = job.total_positions
 		if(!latejoin)
@@ -96,7 +92,6 @@ SUBSYSTEM_DEF(job)
 		unassigned -= player
 		job.current_positions++
 		return TRUE
-	to_chat(player, "5")
 	JobDebug("AR has failed, Player: [player], Rank: [rank]")
 	return FALSE
 
@@ -372,25 +367,20 @@ SUBSYSTEM_DEF(job)
 		var/allowed_to_be_a_loser = !jobban_isbanned(player, SSjob.overflow_role)
 		if(QDELETED(player) || !allowed_to_be_a_loser)
 			RejectPlayer(player)
-			to_chat(player, "11")
 		else
 			if(!AssignRole(player, SSjob.overflow_role))
 				RejectPlayer(player)
-				to_chat(player, "12")
 	else if(player.client.prefs.joblessrole == BERANDOMJOB)
 		if(!GiveRandomJob(player))
 			RejectPlayer(player)
-			to_chat(player, "13")
 	else if(player.client.prefs.joblessrole == RETURNTOLOBBY)
 		RejectPlayer(player)
-		to_chat(player, "14")
 	else //Something gone wrong if we got here.
 		var/message = "DO: [player] fell through handling unassigned"
 		JobDebug(message)
 		log_game(message)
 		message_admins(message)
 		RejectPlayer(player)
-		to_chat(player, "15")
 //Gives the player the stuff he should have with his rank
 /datum/controller/subsystem/job/proc/EquipRank(mob/M, rank, joined_late = FALSE)
 	var/mob/dead/new_player/N
