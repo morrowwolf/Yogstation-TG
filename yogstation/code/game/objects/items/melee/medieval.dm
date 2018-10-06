@@ -26,7 +26,16 @@
 	name = "sword"
 	icon_state = "sword"
 	desc = "A medieval sword crafted to fight evil and protect a lord's wards."
-	force = 30
-	throwforce = 30
+	force = 25
+	throwforce = 25
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
+	
+/obj/item/melee/medieval/blade/shortsword
+	name = "shortsword"
+	icon_state = "shortsword"
+	desc = "A shorter blade used mostly by militiaman and the average soldier."
+	force = 20
+	throwforce = 20
+	w_class = WEIGHT_CLASS_NORMAL
+	slot_flags = ITEM_SLOT_BELT

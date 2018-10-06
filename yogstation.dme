@@ -1470,6 +1470,7 @@
 #include "code\modules\clothing\under\trek.dm"
 #include "code\modules\clothing\under\jobs\civilian.dm"
 #include "code\modules\clothing\under\jobs\engineering.dm"
+#include "code\modules\clothing\under\jobs\medieval.dm"
 #include "code\modules\clothing\under\jobs\medsci.dm"
 #include "code\modules\clothing\under\jobs\security.dm"
 #include "code\modules\crafting\craft.dm"

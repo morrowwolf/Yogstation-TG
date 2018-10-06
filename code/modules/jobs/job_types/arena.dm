@@ -20,10 +20,12 @@ Arena guys
 	jobtype = /datum/job/peasant
 	belt = /obj/item/melee/medieval/blade/dagger
 	uniform = /obj/item/clothing/under/yogs/peasant
-	belt = null
+	shoes = null
 	id = null
+	ears = null
+	back = null
 	
-/datum/outfit/job/knight/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/peasant/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	return
 	
 /datum/job/knight
@@ -44,12 +46,13 @@ Arena guys
 	name = "Knight"
 	jobtype = /datum/job/knight
 	
-	uniform = /obj/item/clothing/under/yogs/peasant
+	uniform = /obj/item/clothing/under/gambeson
 	shoes = /obj/item/clothing/shoes/yogs/boots
 	suit = /obj/item/clothing/suit/armor/knight
-	back = /obj/item/melee/medieval/blade/sword
-	belt = null
+	back = /obj/item/shields/medieval
+	belt = /obj/item/melee/medieval/blade/shortsword
 	id = null
+	ears = null
 	
 /datum/outfit/job/knight/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	return
@@ -72,12 +75,13 @@ Arena guys
 	name = "Fighter"
 	jobtype = /datum/job/fighter
 	
-	uniform = /obj/item/clothing/under/yogs/peasant
+	uniform = /obj/item/clothing/under/gambeson
 	shoes = /obj/item/clothing/shoes/yogs/boots
-	suit = /obj/item/clothing/suit/armor/knight
+	suit = /obj/item/clothing/suit/armor/coat_of_plates
 	back = /obj/item/melee/medieval/blade/sword
 	belt = null
 	id = null
+	ears = null
 	
 /datum/outfit/job/fighter/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	return
@@ -95,21 +99,26 @@ Arena guys
 	
 /datum/job/archer/after_spawn(mob/living/carbon/human/H, mob/M)
 	handle_arena_spawn(H)
+	H.update_inv_back()
 	
 /datum/outfit/job/archer
 	name = "Archer"
 	jobtype = /datum/job/archer
 	
-	uniform = /obj/item/clothing/under/yogs/peasant
+	uniform = /obj/item/clothing/under/gambeson
 	shoes = /obj/item/clothing/shoes/yogs/boots
-	suit = /obj/item/clothing/suit/armor/knight
 	back = /obj/item/storage/backpack/quiver
 	l_hand = /obj/item/bow
-	belt = null
+	belt = /obj/item/melee/medieval/blade/dagger
 	id = null
+	ears = null
 	
 /datum/outfit/job/archer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	return
+	if(!backpack_contents)
+		backpack_contents = list()
+	backpack_contents.Insert(1, /obj/item/ammo_casing/arrow)
+	backpack_contents[/obj/item/ammo_casing/arrow] = 8
+
 	
 /datum/job/proc/handle_arena_spawn(mob/living/carbon/human/H)
 	var/destination = pick(list(/area/barony/outside, /area/barony/inside))

@@ -234,3 +234,10 @@
 /obj/item/clothing/suit/armor/riot/knight/red
 	icon_state = "knight_red"
 	item_state = "knight_red"
+
+/obj/item/clothing/suit/armor/coat_of_plates
+	name = "coat of plates"
+	desc = "Segmented torso armor consisting of overlapping metal plates."
+	icon_state = "coat_of_plates"
+	item_state = "coat_of_plates"
+	blood_overlay_type = "armor"
