@@ -72,6 +72,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/obj/item/organ/liver/mutantliver
 	var/obj/item/organ/stomach/mutantstomach
 	var/override_float = FALSE
+	
+	var/list/species_butcher_results
 
 ///////////
 // PROCS //

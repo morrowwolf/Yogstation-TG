@@ -20,6 +20,8 @@
 	if(dna.species)
 		set_species(dna.species.type)
 
+	guaranteed_butcher_results = dna.species.species_butcher_results
+		
 	//initialise organs
 	create_internal_organs() //most of it is done in set_species now, this is only for parent call
 	physiology = new()
