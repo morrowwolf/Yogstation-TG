@@ -27,32 +27,34 @@
 "A" = (/obj/structure/flora/tree/jungle/small,/turf/open/floor/grass,/area/barony/outside)
 "B" = (/obj/structure/flora/tree/jungle,/turf/open/floor/grass,/area/barony/outside)
 "C" = (/obj/structure/fermenting_barrel,/turf/open/floor/wood,/area/barony/inside)
+"D" = (/obj/structure/bed/medieval,/turf/open/floor/wood,/area/barony/inside)
+"E" = (/obj/structure/flora/ausbushes,/obj/effect/light_emitter/sun_light,/turf/open/floor/grass,/area/barony/outside)
 
 (1,1,1) = {"
 bbbbaaaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbatccccccccxcccccccccccccua
 bbbbacccccccccccccccccccccccca
-bbbbaccyzccccccccAccccccczccca
-bbbbacxcccccccccccccccccccccca
-bbbbaccccccmmmmmmmmmmcccccccca
-bbbbacccccmddddddddddmcccxccca
-bbbbacccccmdeCghffifdmccccccca
-bbbbacccccmdjfghfkghdmccccccca
-bbbbaccczcmlffnhfkohdmccccccca
-bbbbacccccmdffghpppplmccccccca
-bbbbacccccmdggqhpppplmccccccca
-bbbbacccczmdrrffffffdmcccccxca
-bbbbacccccmdffffsffidmccczccca
-bbbbacccccmdkohkohkodmccccccca
-bbbbacccccmddddddddddmccccccca
-bbbbaccxcccmmmmmmmmmmcccccccca
+bbbbaccyzccccccccAcccccmmEmmca
+bbbbacxcccccccccccccccmdddddma
+bbbbaccmmmmmmmmmmcccccmdkohdma
+bbbbacmddddddddddmccccmdfffdma
+bbbbacmdeCghffifdmccccmlfffdma
+bbbbacmdjfghfkghdmccccmdfffdma
+bbbbacmlffnhfkohdmccccmdDgDdma
+bbbbacmdffghpppplmccccmdddddma
+bbbbacmdggqhpppplmcccccmmmmmca
+bbbbacmdrrffffffdmcccccccccxca
+bbbbacmdffffsffidmccccccczccca
+bbbbacmdkohkohkodmccccccccccca
+bbbbacmddddddddddmccccccccccca
+bbbbaccmmmmmmmmmmcccccccccccca
 bbbbacccccccccccccccccycccccca
-bbbbacccccccccccccccccccccccca
-bbbbacccccccccccccccccccccccca
-bbbbacccccccccccccccccccccccca
-bbbbaccccccccccccxccccccccccca
-bbbbaccBccccccccccccccczccccca
-bbbbaccccczcccccccccccccccccca
+bbbbaccccccccccccccccmmmmmmcca
+bbbbacccccccccccccccmddddldmca
+bbbbacccccccccccccccmdofffdmca
+bbbbaccccccccccccxccmdfDdrdmca
+bbbbaccBccccccccccccmddddddmca
+bbbbaccccczccccccccccmmmmmmcca
 bbbbavccccccccccccccccccccccwa
 bbbbaaaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb

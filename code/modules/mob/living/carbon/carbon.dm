@@ -801,6 +801,15 @@
 			O.forceMove(drop_location())
 	if(organs_amt)
 		to_chat(user, "<span class='notice'>You retrieve some of [src]\'s internal organs!</span>")
+		
+	for(var/obj/item/I in contents)
+		if(I.contents)
+			for(var/obj/item/J in contents)
+				if(J.contents)
+					for(var/obj/item/K in contents)
+						dropItemToGround(K)
+				dropItemToGround(J)
+		dropItemToGround(I)
 
 /mob/living/carbon/ExtinguishMob()
 	for(var/X in get_equipped_items())

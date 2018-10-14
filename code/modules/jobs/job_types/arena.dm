@@ -33,8 +33,8 @@ Arena guys
 	flag = KNIGHT
 	department_flag = ARENA
 	faction = "Arena"
-	total_positions = 20
-	spawn_positions = 20
+	total_positions = 1
+	spawn_positions = 1
 	supervisors = "N/A"
 	selection_color = "#dddddd"
 	outfit = /datum/outfit/job/knight
@@ -49,8 +49,9 @@ Arena guys
 	uniform = /obj/item/clothing/under/gambeson
 	shoes = /obj/item/clothing/shoes/yogs/boots
 	suit = /obj/item/clothing/suit/armor/knight
-	back = /obj/item/shields/medieval
+	l_hand = /obj/item/shields/medieval
 	belt = /obj/item/melee/medieval/blade/shortsword
+	back = /obj/item/melee/medieval/blade/sword
 	id = null
 	ears = null
 	
@@ -62,8 +63,8 @@ Arena guys
 	flag = FIGHTER
 	department_flag = ARENA
 	faction = "Arena"
-	total_positions = 20
-	spawn_positions = 20
+	total_positions = 0
+	spawn_positions = 0
 	supervisors = "N/A"
 	selection_color = "#dddddd"
 	outfit = /datum/outfit/job/fighter
@@ -91,8 +92,8 @@ Arena guys
 	flag = ARCHER
 	department_flag = ARENA
 	faction = "Arena"
-	total_positions = 20
-	spawn_positions = 20
+	total_positions = 0
+	spawn_positions = 0
 	supervisors = "N/A"
 	selection_color = "#dddddd"
 	outfit = /datum/outfit/job/archer

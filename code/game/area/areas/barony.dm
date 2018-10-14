@@ -1,3 +1,7 @@
+/area/barony
+	ambientsounds = null
+	music = null
+
 /area/barony/outside
 	name = "Barony Outside"
 	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
@@ -5,7 +9,7 @@
 	has_gravity = TRUE
 	
 /area/barony/inside
-	name = "Barony Outside"
+	name = "Barony Inside"
 	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 	atmos = FALSE
 	has_gravity = TRUE
