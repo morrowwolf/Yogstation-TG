@@ -45,10 +45,10 @@
 		Mind.active = 1
 
 		var/mob/living/carbon/human/skeleton = new(user.loc)
-		skeleton.set_species(/datum/species/skeleton)
 		var/datum/preferences/A = new()
 		A.real_name = "Servant of [user]"
 		A.copy_to(skeleton)
+		skeleton.set_species(/datum/species/skeleton)
 		skeleton.dna.update_dna_identity()
 		
 		
