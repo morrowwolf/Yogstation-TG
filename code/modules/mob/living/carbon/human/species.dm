@@ -288,6 +288,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		for(var/datum/disease/A in C.diseases)
 			A.cure(FALSE)
 
+	C.guaranteed_butcher_results = species_butcher_results
 
 /datum/species/proc/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	if(C.dna.species.exotic_bloodtype)
@@ -296,6 +297,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		C.Digitigrade_Leg_Swap(TRUE)
 	for(var/X in inherent_traits)
 		C.remove_trait(X, SPECIES_TRAIT)
+	C.guaranteed_butcher_results = null
 
 /datum/species/proc/handle_hair(mob/living/carbon/human/H, forced_colour)
 	H.remove_overlay(HAIR_LAYER)
