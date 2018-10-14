@@ -30,7 +30,7 @@
 	
 	var/list/candidates = user.orbiters
 	
-	if(!candidates.len)
+	if(!candidates || !candidates.len)
 		to_chat(user, "No undead to summon!")
 		return
 		
@@ -45,11 +45,12 @@
 		Mind.active = 1
 
 		var/mob/living/carbon/human/skeleton = new(user.loc)
+		skeleton.set_species(/datum/species/skeleton)
 		var/datum/preferences/A = new()
 		A.real_name = "Servant of [user]"
 		A.copy_to(skeleton)
 		skeleton.dna.update_dna_identity()
-		skeleton.makeSkeleton()
+		
 		
 		Mind.transfer_to(skeleton)
 		var/datum/antagonist/witch/witch_skeleton/skeletondatum = new
