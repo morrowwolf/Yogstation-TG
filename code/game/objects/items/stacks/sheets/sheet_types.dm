@@ -501,7 +501,7 @@ GLOBAL_LIST_INIT(bronze_recipes, list ( \
 	desc = "Someone's been drinking their milk."
 	force = 7
 	throwforce = 5
-	max_amount = 12
+	max_amount = 5
 	w_class = WEIGHT_CLASS_NORMAL
 	throw_speed = 1
 	throw_range = 3

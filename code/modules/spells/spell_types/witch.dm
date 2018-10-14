@@ -18,18 +18,23 @@
 	
 	for(var/turf/T in targets)
 		for(var/obj/item/stack/sheet/bone/b in T.contents)
-			bones++
+			bones += b.amount
 			
 	if(bones < 5)
 		to_chat(user, "Not enough bones to summon an undead minion!")
 		return
 	
-	var/list/candidates = get_candidates(ROLE_WITCH_SKELETON, null, ROLE_WITCH_SKELETON)
+	notify_ghosts("A necromancer summons servants!", source = user, action=NOTIFY_ORBIT, flashwindow = FALSE)
+	
+	sleep(50)
+	
+	var/list/candidates = user.orbiters
+	
 	if(!candidates.len)
 		to_chat(user, "No undead to summon!")
 		return
 		
-	while(bones >= 5)
+	while(bones >= 5 && candidates.len)
 		var/mob/dead/selected_candidate = pick_n_take(candidates)
 		var/key = selected_candidate.key
 
@@ -57,27 +62,15 @@
 		var/bone_removal = 5
 		for(var/turf/T in targets)
 			for(var/obj/item/stack/sheet/bone/b in T.contents)
-				qdel(b)
-				bone_removal--
+				if(b.amount > bone_removal)
+					b.amount -= bone_removal
+					bone_removal = 0
+				if(b.amount <= bone_removal)
+					bone_removal -= b.amount
+					qdel(b)
 				if(bone_removal == 0)
 					goto FinishBoneRemoval
 		
 		FinishBoneRemoval
 			
 		log_game("[skeleton.key] was spawned as a skeleton by [user.key]/ ([user])")
-	
-	
-/obj/effect/proc_holder/spell/aoe_turf/summon_skeleton/proc/get_candidates(jobban, gametypecheck, be_special)
-	// Returns a list of candidates in priority order, with candidates from
-	// `priority_candidates` first, and ghost roles randomly shuffled and
-	// appended after
-	var/list/mob/dead/observer/regular_candidates
-	// don't get their hopes up
-	
-	regular_candidates = pollGhostCandidates("Do you wish to be considered for the special role of 'Witch's Skeleton'?", jobban, gametypecheck, be_special)
-
-	shuffle_inplace(regular_candidates)
-
-	var/list/candidates = regular_candidates
-
-	return candidates
