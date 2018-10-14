@@ -47,6 +47,11 @@
 		var/mob/living/carbon/human/skeleton = new(user.loc)
 		var/datum/preferences/A = new()
 		A.real_name = "Servant of [user]"
+		A.underwear = "Nude"
+		A.undershirt = "Nude"
+		A.socks = "Nude"
+		A.hair_style = "Bald"
+		A.facial_hair_style = "Shaved"
 		A.copy_to(skeleton)
 		skeleton.set_species(/datum/species/skeleton)
 		skeleton.dna.update_dna_identity()
