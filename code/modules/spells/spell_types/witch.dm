@@ -35,8 +35,8 @@
 		return
 		
 	while(bones >= 5 && candidates.len)
-		var/mob/dead/selected_candidate = pick_n_take(candidates)
-		var/key = selected_candidate.orbiter.key
+		var/mob/dead/selected_candidate = pick_n_take(candidates).orbiter
+		var/key = selected_candidate.key
 
 		
 		var/datum/mind/Mind = new /datum/mind(key)
