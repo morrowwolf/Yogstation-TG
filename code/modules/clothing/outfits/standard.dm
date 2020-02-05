@@ -53,7 +53,7 @@
 		return
 
 	var/obj/item/reagent_containers/glass/bucket/bucket = H.get_item_for_held_index(1)
-	bucket.reagents.add_reagent("water",70)
+	bucket.reagents.add_reagent(/datum/reagent/water,70)
 
 /datum/outfit/laser_tag
 	name = "Laser Tag Red"
@@ -228,6 +228,8 @@
 	W.registered_name = H.real_name
 	W.update_label()
 
+	H.ignores_capitalism = TRUE // Yogs -- Lets Centcom guys buy a damned smoke for christ's sake
+
 /datum/outfit/spec_ops
 	name = "Special Ops Officer"
 
@@ -361,15 +363,18 @@
 /datum/outfit/plasmaman
 	name = "Plasmaman"
 
-	head = /obj/item/clothing/head/helmet/space/plasmaman
 	uniform = /obj/item/clothing/under/plasmaman
 	r_hand= /obj/item/tank/internals/plasmaman/belt/full
 	mask = /obj/item/clothing/mask/breath
+	back = /obj/item/storage/backpack
+	ears = /obj/item/radio/headset
+	head = /obj/item/clothing/head/helmet/space/plasmaman
+	shoes = /obj/item/clothing/shoes/sneakers/black
 
 /datum/outfit/death_commando
 	name = "Death Commando"
 
-	uniform = /obj/item/clothing/under/color/green
+	uniform = /obj/item/clothing/under/rank/centcom_commander
 	suit = /obj/item/clothing/suit/space/hardsuit/deathsquad
 	shoes = /obj/item/clothing/shoes/combat/swat
 	gloves = /obj/item/clothing/gloves/combat
@@ -378,7 +383,7 @@
 	back = /obj/item/storage/backpack/security
 	l_pocket = /obj/item/melee/transforming/energy/sword/saber
 	r_pocket = /obj/item/shield/energy
-	suit_store = /obj/item/tank/internals/emergency_oxygen
+	suit_store = /obj/item/tank/internals/emergency_oxygen/double
 	belt = /obj/item/gun/ballistic/revolver/mateba
 	r_hand = /obj/item/gun/energy/pulse/loyalpin
 	id = /obj/item/card/id
@@ -426,7 +431,7 @@
 
 /datum/outfit/debug //Debug objs plus hardsuit
 	name = "Debug outfit"
-	uniform = /obj/item/clothing/under/patriotsuit 
+	uniform = /obj/item/clothing/under/patriotsuit
 	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	shoes = /obj/item/clothing/shoes/magboots/advance
 	suit_store = /obj/item/tank/internals/oxygen
@@ -437,4 +442,9 @@
 	glasses = /obj/item/clothing/glasses/meson/night
 	ears = /obj/item/radio/headset/headset_cent/commander
 	back = /obj/item/storage/backpack/holding
-	backpack_contents = list(/obj/item/card/emag=1,	/obj/item/flashlight/emp/debug=1, /obj/item/construction/rcd/combat=1, /obj/item/gun/magic/wand/resurrection/debug=1, /obj/item/melee/transforming/energy/axe=1)
+	backpack_contents = list(/obj/item/card/emag=1,\
+		/obj/item/flashlight/emp/debug=1,\
+		/obj/item/construction/rcd/combat=1,\
+		/obj/item/gun/magic/wand/resurrection/debug=1,\
+		/obj/item/melee/transforming/energy/axe=1,\
+		/obj/item/storage/part_replacer/bluespace/tier4=1)

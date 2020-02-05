@@ -16,9 +16,9 @@
 	var/network_destination = null			// Optional string that describes what NTNet server/system this program connects to. Used in default logging.
 	var/available_on_ntnet = 1				// Whether the program can be downloaded from NTNet. Set to 0 to disable.
 	var/available_on_syndinet = 0			// Whether the program can be downloaded from SyndiNet (accessible via emagging the computer). Set to 1 to enable.
-	var/tgui_id								// ID of TG UI interface
-	var/ui_style							// ID of custom TG UI style (optional)
-	var/ui_x = 575							// Default size of TG UI window, in pixels
+	var/tgui_id								// ID of TGUI interface
+	var/ui_style							// ID of custom TGUI style (optional)
+	var/ui_x = 575							// Default size of TGUI window, in pixels
 	var/ui_y = 700
 	var/ui_header = null					// Example: "something.gif" - a header image that will be rendered in computer's UI when this program is running at background. Images are taken from /icons/program_icons. Be careful not to use too large images!
 
@@ -97,23 +97,15 @@
 			card_slot = computer.all_components[MC_CARD]
 			D = card_slot.GetID()
 		var/mob/living/carbon/human/h = user
-		var/obj/item/card/id/I = h.get_idcard()
-		var/obj/item/card/id/C = h.get_active_held_item()
-		if(C)
-			C = C.GetID()
-		if(!(C && istype(C)))
-			C = null
+		var/obj/item/card/id/I = h.get_idcard(TRUE)
 
-		if(!I && !C && !D)
+		if(!I && !D)
 			if(loud)
 				to_chat(user, "<span class='danger'>\The [computer] flashes an \"RFID Error - Unable to scan ID\" warning.</span>")
 			return 0
 
 		if(I)
 			if(access_to_check in I.GetAccess())
-				return 1
-		else if(C)
-			if(access_to_check in C.GetAccess())
 				return 1
 		else if(D)
 			if(access_to_check in D.GetAccess())

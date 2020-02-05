@@ -14,7 +14,8 @@ SUBSYSTEM_DEF(blackbox)
 							"explosion" = 2,
 							"time_dilation_current" = 3,
 							"science_techweb_unlock" = 2,
-							"round_end_stats" = 2) //associative list of any feedback variables that have had their format changed since creation and their current version, remember to update this
+							"round_end_stats" = 2,
+							"testmerged_prs" = 2) //associative list of any feedback variables that have had their format changed since creation and their current version, remember to update this
 
 /datum/controller/subsystem/blackbox/Initialize()
 	triggertime = world.time
@@ -294,7 +295,7 @@ Versioning
 	var/lakey = L.lastattackerckey
 	var/sqlbrute = L.getBruteLoss()
 	var/sqlfire = L.getFireLoss()
-	var/sqlbrain = L.getBrainLoss()
+	var/sqlbrain = L.getOrganLoss(ORGAN_SLOT_BRAIN)
 	var/sqloxy = L.getOxyLoss()
 	var/sqltox = L.getToxLoss()
 	var/sqlclone = L.getCloneLoss()
@@ -308,7 +309,7 @@ Versioning
 
 	if(!SSdbcore.Connect())
 		return
-	
+
 	sqlname = sanitizeSQL(sqlname)
 	sqlkey = sanitizeSQL(sqlkey)
 	sqljob = sanitizeSQL(sqljob)

@@ -19,6 +19,7 @@
 	var/list/mode_false_report_weight
 
 	var/motd
+	var/policy
 
 /datum/controller/configuration/proc/admin_reload()
 	if(IsAdminAdvancedProcCall())
@@ -34,7 +35,7 @@
 	if(_directory)
 		directory = _directory
 	if(entries)
-		CRASH("[THIS_PROC_TYPE_WEIRD] called more than once!")
+		CRASH("/datum/controller/configuration/Load() called more than once!")
 	InitEntries()
 	LoadModes()
 	if(fexists("[directory]/config.txt") && LoadEntries("config.txt") <= 1)
@@ -47,6 +48,7 @@
 				break
 	loadmaplist(CONFIG_MAPS_FILE)
 	LoadMOTD()
+	LoadPolicy()
 
 /datum/controller/configuration/proc/full_wipe()
 	if(IsAdminAdvancedProcCall())
@@ -227,11 +229,12 @@
 				modes += M.config_tag
 				mode_names[M.config_tag] = M.name
 				probabilities[M.config_tag] = M.probability
-				mode_reports[M.config_tag] = M.generate_report()
+				mode_reports[M.report_type] = M.generate_report()
 				if(probabilities[M.config_tag]>0)
-					mode_false_report_weight[M.config_tag] = M.false_report_weight
+					mode_false_report_weight[M.report_type] = M.false_report_weight
 				else
-					mode_false_report_weight[M.config_tag] = 1
+					//"impossible" modes will still falsly show up occasionally, else they'll stick out like a sore thumb if an admin decides to force a disabled gamemode.
+					mode_false_report_weight[M.report_type] = min(1, M.false_report_weight)
 				if(M.votable)
 					votable_modes += M.config_tag
 		qdel(M)
@@ -242,6 +245,34 @@
 	var/tm_info = GLOB.revdata.GetTestMergeInfo()
 	if(motd || tm_info)
 		motd = motd ? "[motd]<br>[tm_info]" : tm_info
+/*
+Policy file should be a json file with a single object.
+Value is raw html.
+
+Possible keywords : 
+Job titles / Assigned roles (ghost spawners for example) : Assistant , Captain , Ash Walker
+Mob types : /mob/living/simple_animal/hostile/carp
+Antagonist types : /datum/antagonist/highlander
+Species types : /datum/species/lizard
+special keywords defined in _DEFINES/admin.dm
+
+Example config:
+{
+    "Assistant" : "Don't kill everyone",
+    "/datum/antagonist/highlander" : "<b>Kill everyone</b>",
+    "Ash Walker" : "Kill all spacemans"
+}
+
+*/
+/datum/controller/configuration/proc/LoadPolicy()
+	policy = list()
+	var/rawpolicy = file2text("[directory]/policy.json")
+	if(rawpolicy)
+		var/parsed = json_decode(rawpolicy)
+		if(!parsed)
+			log_config("JSON parsing failure for policy.json")
+		else
+			policy = parsed
 
 /datum/controller/configuration/proc/loadmaplist(filename)
 	log_config("Loading config file [filename]...")
@@ -289,6 +320,8 @@
 				currentmap.voteweight = text2num(data)
 			if ("default","defaultmap")
 				defaultmap = currentmap
+			if ("votable")
+				currentmap.votable = TRUE
 			if ("endmap")
 				LAZYINITLIST(maplist)
 				maplist[currentmap.map_name] = currentmap

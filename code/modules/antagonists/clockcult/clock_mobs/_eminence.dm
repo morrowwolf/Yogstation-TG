@@ -76,7 +76,7 @@
 		E = new V
 		E.Grant(src)
 
-/mob/camera/eminence/say(message)
+/mob/camera/eminence/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(client)
 		if(client.prefs.muted & MUTE_IC)
 			to_chat(src, "You cannot send IC messages (muted).")
@@ -99,6 +99,7 @@
 			to_chat(M, message)
 
 /mob/camera/eminence/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode)
+	. = ..()
 	if(is_reebe(z) || is_servant_of_ratvar(speaker) || GLOB.ratvar_approaches || GLOB.ratvar_awakens) //Away from Reebe, the Eminence can't hear anything
 		to_chat(src, message)
 		return
@@ -207,10 +208,10 @@
 	wall.turn_up_the_heat()
 	if(wall.heated)
 		superheated_walls++
-		to_chat(src, "<span class='neovgre_small'>You superheat [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]")
+		to_chat(src, "<span class='neovgre_small'>You superheat [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]</span>")
 	else
 		superheated_walls--
-		to_chat(src, "<span class='neovgre_small'>You cool [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]")
+		to_chat(src, "<span class='neovgre_small'>You cool [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]</span>")
 
 /mob/camera/eminence/proc/eminence_help()
 	to_chat(src, "<span class='bold alloy'>You can make use of certain shortcuts to perform different actions:</span>")

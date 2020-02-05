@@ -17,7 +17,7 @@
 	status_flags = CANPUSH
 	attack_sound = 'sound/magic/demon_attack1.ogg'
 	var/feast_sound = 'sound/magic/demon_consume.ogg'
-	death_sound = 'sound/magic/demon_dies.ogg'
+	deathsound = 'sound/magic/demon_dies.ogg'
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	maxbodytemp = INFINITY
@@ -33,7 +33,7 @@
 	see_in_dark = 8
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	var/playstyle_string = "<span class='big bold'>You are a slaughter demon,</span><B> a terrible creature from another realm. You have a single desire: To kill.  \
-							You may use the \"Blood Crawl\" ability near blood pools to travel through them, appearing and disappearing from the station at will. \
+							Alt-click blood pools to travel through them, appearing and disappearing from the station at will. \
 							Pulling a dead or unconscious mob while you enter a pool will pull them in with you, allowing you to feast and regain your health. \
 							You move quickly upon leaving a pool of blood, but the material world will soon sap your strength and leave you sluggish. </B>"
 
@@ -62,6 +62,7 @@
 	desc = "Still it beats furiously, emanating an aura of utter hate."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "demon_heart-on"
+	decay_factor = 0
 
 /obj/item/organ/heart/demon/update_icon()
 	return //always beating visually
@@ -107,7 +108,7 @@
 
 	attack_sound = 'sound/items/bikehorn.ogg'
 	feast_sound = 'sound/spookoween/scary_horn2.ogg'
-	death_sound = 'sound/misc/sadtrombone.ogg'
+	deathsound = 'sound/misc/sadtrombone.ogg'
 
 	icon_state = "bowmon"
 	icon_living = "bowmon"
@@ -118,7 +119,7 @@
 	playstyle_string = "<span class='big bold'>You are a laughter \
 	demon,</span><B> a wonderful creature from another realm. You have a single \
 	desire: <span class='clown'>To hug and tickle.</span><BR>\
-	You may use the \"Blood Crawl\" ability near blood pools to travel \
+	Alt-click blood pools to travel \
 	through them, appearing and disappearing from the station at will. \
 	Pulling a dead or unconscious mob while you enter a pool will pull \
 	them in with you, allowing you to hug them and regain your health.<BR> \
@@ -131,9 +132,9 @@
 
 /mob/living/simple_animal/slaughter/laughter/Initialize()
 	..()
-	GET_COMPONENT(scary, /datum/component/crawl/blood/demonic)
+	var/datum/component/crawl/blood/demonic/scary = GetComponent(/datum/component/crawl/blood/demonic)
 	if(scary)
-		scary.RemoveComponent()
+		scary.RemoveComponent(del_holder=FALSE)
 	var/datum/component/crawl/blood/demonic/hilarious/bloodcrawl = AddComponent(/datum/component/crawl/blood/demonic/hilarious)
 	if(bloodcrawl && istype(loc, /obj/effect/dummy/crawling))
 		bloodcrawl.holder = loc
@@ -152,7 +153,7 @@
 			adjustBruteLoss(30)
 
 /mob/living/simple_animal/slaughter/laughter/proc/release_friends()
-	GET_COMPONENT(bloodcrawl, /datum/component/crawl/blood/demonic/hilarious)
+	var/datum/component/crawl/blood/demonic/hilarious/bloodcrawl = GetComponent(/datum/component/crawl/blood/demonic/hilarious)
 	if(!bloodcrawl || !bloodcrawl.friends)
 		return
 	for(var/mob/living/M in bloodcrawl.friends)
@@ -168,7 +169,7 @@
 			to_chat(M, "<span class='clown'>You leave [src]'s warm embrace, and feel ready to take on the world.</span>") //Why the fuck was there a random tab in this message?
 
 /mob/living/simple_animal/slaughter/laughter/bloodcrawl_swallow(var/mob/living/victim)
-	GET_COMPONENT(bloodcrawl, /datum/component/crawl/blood/demonic/hilarious)
+	var/datum/component/crawl/blood/demonic/hilarious/bloodcrawl = GetComponent(/datum/component/crawl/blood/demonic/hilarious)
 	if(!bloodcrawl || !bloodcrawl.friends)
 		victim.forceMove(get_turf(victim))
 		victim.exit_blood_effect()

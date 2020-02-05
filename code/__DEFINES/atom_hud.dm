@@ -21,8 +21,11 @@
 #define GLAND_HUD "17"//Gland indicators for abductors
 #define SENTIENT_DISEASE_HUD	"18"
 #define AI_DETECT_HUD	"19"
+#define NANITE_HUD "20"
+#define DIAG_NANITE_FULL_HUD "21"
+#define DIAG_LAUNCHPAD_HUD "22" //Displays launchpads' targeting reticle
 //for antag huds. these are used at the /mob level
-#define ANTAG_HUD		"20"
+#define ANTAG_HUD		"23"
 
 //by default everything in the hud_list of an atom is an image
 //a value in hud_list with one of these will change that behavior
@@ -55,6 +58,11 @@
 #define ANTAG_HUD_SOULLESS		21
 #define ANTAG_HUD_CLOCKWORK		22
 #define ANTAG_HUD_BROTHER		23
+#define ANTAG_HUD_HIVE			24
+#define ANTAG_HUD_OBSESSED		25
+#define ANTAG_HUD_FUGITIVE		26
+#define ANTAG_HUD_CAPITALIST	27
+#define ANTAG_HUD_COMMUNIST		28
 
 // Notification action types
 #define NOTIFY_JUMP "jump"

@@ -29,6 +29,12 @@
 /area/shuttle/transport)
 "aj" = (
 /obj/machinery/door/airlock/vault,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plating/airless,
 /area/shuttle/transport)
 "ak" = (
@@ -77,6 +83,12 @@
 /area/shuttle/transport)
 "at" = (
 /obj/machinery/door/airlock,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/transport)
 "au" = (
@@ -84,16 +96,18 @@
 /area/shuttle/transport)
 "av" = (
 /obj/machinery/door/airlock/wood,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/wood,
 /area/shuttle/transport)
 "aw" = (
 /obj/effect/spawner/structure/window/shuttle,
 /turf/closed/wall/mineral/titanium,
-/area/shuttle/transport)
-"ay" = (
-/obj/structure/window/shuttle,
-/obj/structure/grille,
-/turf/open/floor/plating,
 /area/shuttle/transport)
 "az" = (
 /obj/effect/spawner/structure/window/shuttle,
@@ -167,6 +181,12 @@
 	name = "The Lighthouse";
 	port_direction = 2;
 	width = 16
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/transport)
@@ -280,6 +300,13 @@
 "bj" = (
 /obj/structure/shuttle/engine/propulsion/right,
 /turf/open/floor/plating/airless,
+/area/shuttle/transport)
+"Vs" = (
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/plating,
 /area/shuttle/transport)
 
 (1,1,1) = {"
@@ -631,11 +658,11 @@ aa
 aa
 aa
 aa
-ay
+az
 aI
 aE
 aW
-ay
+az
 aa
 aa
 aa
@@ -758,9 +785,9 @@ aa
 aa
 aa
 ad
-ay
+Vs
 aO
-ay
+Vs
 ad
 aa
 aa

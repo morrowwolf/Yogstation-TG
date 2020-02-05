@@ -37,27 +37,44 @@
 /obj/machinery/shower{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/noslip,
 /area/shuttle/escape)
 "am" = (
-/obj/structure/reflector/single/anchored{
+/obj/structure/reflector/single/mapping{
 	dir = 6
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "an" = (
-/obj/structure/reflector/box/anchored,
+/obj/structure/reflector/box/mapping,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "ao" = (
-/obj/structure/reflector/single{
-	anchored = 1;
+/obj/structure/reflector/single/mapping{
 	dir = 10
 	},
 /obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -66,11 +83,10 @@
 /obj/machinery/shower{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/noslip,
-/area/shuttle/escape)
-"aq" = (
-/obj/machinery/status_display,
-/turf/closed/wall/mineral/titanium,
 /area/shuttle/escape)
 "ar" = (
 /obj/structure/chair/comfy/shuttle{
@@ -82,6 +98,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "at" = (
@@ -89,6 +108,9 @@
 /area/shuttle/escape)
 "au" = (
 /obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -102,12 +124,15 @@
 "aw" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
-"ax" = (
-/turf/closed/wall/mineral/titanium/interior,
-/area/shuttle/escape)
 "aA" = (
 /obj/machinery/door/airlock/titanium{
 	name = "Emergency Shuttle Airlock"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
@@ -136,44 +161,62 @@
 /obj/docking_port/mobile/emergency{
 	name = "Hyperfractal Gigashuttle"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "aI" = (
 /obj/structure/sign/warning/radiation,
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
+"aK" = (
+/obj/structure/closet/radiation{
+	anchored = 1
+	},
+/obj/item/clothing/glasses/meson/engine,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
 "aL" = (
 /obj/machinery/door/airlock/external{
 	name = "Emergency Launch Catwalk";
 	req_access_txt = "10;13"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "aM" = (
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aN" = (
-/obj/structure/reflector/single/anchored{
+/obj/structure/reflector/single/mapping{
 	dir = 6
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aO" = (
-/obj/structure/reflector/double/anchored{
+/obj/structure/reflector/double/mapping{
 	dir = 6
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aP" = (
-/obj/structure/reflector/double{
-	anchored = 1;
+/obj/structure/reflector/double/mapping{
 	dir = 10
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aQ" = (
-/obj/structure/reflector/single{
-	anchored = 1;
+/obj/structure/reflector/single/mapping{
 	dir = 10
 	},
 /turf/open/floor/plating/airless,
@@ -266,11 +309,17 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "bh" = (
 /obj/structure/grille,
 /obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -283,6 +332,9 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
 "bj" = (
@@ -293,6 +345,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
 "bk" = (
@@ -300,6 +355,9 @@
 	dir = 8
 	},
 /obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -311,7 +369,101 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /turf/open/floor/plating,
+/area/shuttle/escape)
+"cw" = (
+/obj/structure/closet/radiation{
+	anchored = 1
+	},
+/obj/item/clothing/glasses/meson/engine,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"hD" = (
+/obj/structure/lattice/catwalk,
+/turf/open/space,
+/area/shuttle/escape)
+"iP" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"lY" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"pb" = (
+/obj/structure/closet/radiation{
+	anchored = 1
+	},
+/obj/item/clothing/glasses/meson/engine,
+/obj/machinery/status_display/evac{
+	pixel_x = 32
+	},
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"pW" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"Ap" = (
+/obj/structure/closet/radiation{
+	anchored = 1
+	},
+/obj/item/clothing/glasses/meson/engine,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"Bi" = (
+/obj/structure/closet/radiation{
+	anchored = 1
+	},
+/obj/item/clothing/glasses/meson/engine,
+/obj/machinery/status_display/evac{
+	pixel_x = -32
+	},
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"Eq" = (
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"Gp" = (
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/shuttle/escape)
+"Sh" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/mineral/titanium/yellow,
+/area/shuttle/escape)
+"UA" = (
+/obj/machinery/status_display/evac{
+	pixel_y = -32
+	},
+/turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
 
 (1,1,1) = {"
@@ -339,17 +491,17 @@ aa
 aa
 "}
 (2,1,1) = {"
-ae
+aw
 ae
 ad
 ac
-aq
+ae
 ad
-ax
+aw
 ai
 aD
-ai
-aq
+UA
+ae
 aa
 aa
 aN
@@ -357,7 +509,7 @@ aM
 aR
 aU
 aX
-at
+aM
 ba
 bc
 be
@@ -367,53 +519,53 @@ ac
 ag
 ag
 bi
+Bi
 ag
-ag
-ag
+cw
 ai
 ai
 ai
 ad
 aa
 aa
-at
+aM
 aa
 aS
 aV
 aY
-at
+aM
 ba
 bc
 be
 "}
 (4,1,1) = {"
-ad
+Gp
 ah
 ai
 al
 ar
 ar
+pW
 ar
 ar
-ar
-ar
+Eq
 aI
 aw
 aa
-at
+aM
 aa
 aT
 aW
 aZ
 aa
-aM
+hD
 aa
 aa
 "}
 (5,1,1) = {"
-ad
-ag
-aj
+Gp
+aK
+Sh
 am
 as
 as
@@ -423,11 +575,11 @@ as
 as
 bk
 ad
-at
+aM
 aO
 aa
 aa
-aM
+hD
 aa
 aa
 aR
@@ -435,7 +587,7 @@ aU
 aX
 "}
 (6,1,1) = {"
-ad
+Gp
 ag
 aj
 an
@@ -449,19 +601,19 @@ at
 aL
 aM
 aM
-aM
-aM
-aM
-aM
-aM
+hD
+hD
+hD
+hD
+hD
 bb
 bd
 aY
 "}
 (7,1,1) = {"
-ad
-ag
-aj
+Gp
+Ap
+iP
 ao
 au
 au
@@ -471,11 +623,11 @@ au
 au
 bl
 ad
-at
+aM
 aP
 aa
 aa
-aM
+hD
 aa
 aa
 aT
@@ -483,26 +635,26 @@ aW
 aZ
 "}
 (8,1,1) = {"
-ad
+Gp
 ah
 ai
 ap
 av
 av
+lY
 av
 av
-av
-av
+Eq
 aI
 aw
 aa
-at
+aM
 aa
 aR
 aU
 aX
 aa
-aM
+hD
 aa
 aa
 "}
@@ -511,37 +663,37 @@ ac
 ag
 ag
 bj
+pb
 ag
-ag
-ag
+cw
 ai
 ai
 ai
 ad
 aa
 aa
-at
+aM
 aa
 aS
 aV
 aY
-at
+aM
 ba
 bc
 be
 "}
 (10,1,1) = {"
-ae
+aw
 ae
 ad
 ac
-aq
+ae
 ad
-ax
+aw
 ai
 aE
-ai
-aq
+UA
+ae
 aa
 aa
 aQ
@@ -549,7 +701,7 @@ aM
 aT
 aW
 aZ
-at
+aM
 ba
 bc
 be

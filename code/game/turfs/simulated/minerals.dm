@@ -8,10 +8,9 @@
 	smooth = SMOOTH_MORE|SMOOTH_BORDER
 	canSmoothWith = null
 	baseturfs = /turf/open/floor/plating/asteroid/airless
-	initial_gas_mix = "TEMP=2.7"
+	initial_gas_mix = AIRLESS_ATMOS
 	opacity = 1
 	density = TRUE
-	blocks_air = 1
 	layer = EDGED_TURF_LAYER
 	temperature = TCMB
 	var/environment_type = "asteroid"
@@ -131,17 +130,17 @@
 	T.ChangeTurf(type)
 
 /turf/closed/mineral/random
-	var/mineralSpawnChanceList
+	var/list/mineralSpawnChanceList = list(/turf/closed/mineral/uranium = 5, /turf/closed/mineral/diamond = 1, /turf/closed/mineral/gold = 10,
+		/turf/closed/mineral/silver = 12, /turf/closed/mineral/plasma = 20, /turf/closed/mineral/iron = 40, /turf/closed/mineral/titanium = 11,
+		/turf/closed/mineral/gibtonite = 4, /turf/open/floor/plating/asteroid/airless/cave = 2, /turf/closed/mineral/bscrystal = 1)
 		//Currently, Adamantine won't spawn as it has no uses. -Durandan
 	var/mineralChance = 13
 	var/display_icon_state = "rock"
 
 /turf/closed/mineral/random/Initialize()
-	if (!mineralSpawnChanceList)
-		mineralSpawnChanceList = list(
-			/turf/closed/mineral/uranium = 5, /turf/closed/mineral/diamond = 1, /turf/closed/mineral/gold = 10,
-			/turf/closed/mineral/silver = 12, /turf/closed/mineral/plasma = 20, /turf/closed/mineral/iron = 40, /turf/closed/mineral/titanium = 11,
-			/turf/closed/mineral/gibtonite = 4, /turf/open/floor/plating/asteroid/airless/cave = 2, /turf/closed/mineral/bscrystal = 1)
+
+	mineralSpawnChanceList = typelist("mineralSpawnChanceList", mineralSpawnChanceList)
+
 	if (display_icon_state)
 		icon_state = display_icon_state
 	. = ..()
@@ -164,6 +163,7 @@
 	mineralChance = 25
 	mineralSpawnChanceList = list(
 		/turf/closed/mineral/uranium = 35, /turf/closed/mineral/diamond = 30, /turf/closed/mineral/gold = 45, /turf/closed/mineral/titanium = 45,
+		/turf/closed/mineral/dilithium = 25, // Yogs -- Adds Dilthium, for Cold Fusion 'n shit
 		/turf/closed/mineral/silver = 50, /turf/closed/mineral/plasma = 50, /turf/closed/mineral/bscrystal = 20)
 
 /turf/closed/mineral/random/high_chance/volcanic
@@ -198,6 +198,7 @@
 	mineralSpawnChanceList = list(
 		/turf/closed/mineral/uranium/volcanic = 5, /turf/closed/mineral/diamond/volcanic = 1, /turf/closed/mineral/gold/volcanic = 10, /turf/closed/mineral/titanium/volcanic = 11,
 		/turf/closed/mineral/silver/volcanic = 12, /turf/closed/mineral/plasma/volcanic = 20, /turf/closed/mineral/iron/volcanic = 40,
+		/turf/closed/mineral/dilithium/volcanic = 2, // Yogs -- Adds Dilthium, for Cold Fusion 'n shit
 		/turf/closed/mineral/gibtonite/volcanic = 4, /turf/open/floor/plating/asteroid/airless/cave/volcanic = 1, /turf/closed/mineral/bscrystal/volcanic = 1)
 
 
@@ -241,7 +242,7 @@
 	smooth_icon = 'icons/turf/walls/icerock_wall.dmi'
 	turf_type = /turf/open/floor/plating/asteroid/snow/ice
 	baseturfs = /turf/open/floor/plating/asteroid/snow/ice
-	initial_gas_mix = "o2=22;n2=82;TEMP=180"
+	initial_gas_mix = FROZEN_ATMOS
 	defer_change = TRUE
 
 
@@ -278,7 +279,7 @@
 	smooth_icon = 'icons/turf/walls/icerock_wall.dmi'
 	turf_type = /turf/open/floor/plating/asteroid/snow/ice
 	baseturfs = /turf/open/floor/plating/asteroid/snow/ice
-	initial_gas_mix = "o2=22;n2=82;TEMP=180"
+	initial_gas_mix = FROZEN_ATMOS
 	defer_change = TRUE
 
 
@@ -343,7 +344,7 @@
 	smooth_icon = 'icons/turf/walls/icerock_wall.dmi'
 	turf_type = /turf/open/floor/plating/asteroid/snow/ice
 	baseturfs = /turf/open/floor/plating/asteroid/snow/ice
-	initial_gas_mix = "o2=22;n2=82;TEMP=180"
+	initial_gas_mix = FROZEN_ATMOS
 	defer_change = TRUE
 
 
@@ -396,6 +397,11 @@
 	turf_type = /turf/open/floor/plating/ashplanet/rocky
 	defer_change = 1
 
+/turf/closed/mineral/ash_rock/airless
+	turf_type = /turf/open/floor/plating/asteroid/airless
+	baseturfs = /turf/open/floor/plating/asteroid/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
 /turf/closed/mineral/snowmountain
 	name = "snowy mountainside"
 	icon = 'icons/turf/mining.dmi'
@@ -404,7 +410,7 @@
 	smooth = SMOOTH_MORE|SMOOTH_BORDER
 	canSmoothWith = list (/turf/closed)
 	baseturfs = /turf/open/floor/plating/asteroid/snow
-	initial_gas_mix = "o2=22;n2=82;TEMP=180"
+	initial_gas_mix = FROZEN_ATMOS
 	environment_type = "snow"
 	turf_type = /turf/open/floor/plating/asteroid/snow
 	defer_change = TRUE
@@ -452,20 +458,15 @@
 		desc = "An active gibtonite reserve. Run!"
 		stage = GIBTONITE_ACTIVE
 		visible_message("<span class='danger'>There was gibtonite inside! It's going to explode!</span>")
-		var/turf/bombturf = get_turf(src)
 
 		var/notify_admins = 0
 		if(z != 5)
-			notify_admins = 1
-			if(!triggered_by_explosion)
-				message_admins("[ADMIN_LOOKUPFLW(user)] has triggered a gibtonite deposit reaction at [ADMIN_VERBOSEJMP(bombturf)].")
-			else
-				message_admins("An explosion has triggered a gibtonite deposit reaction at [ADMIN_VERBOSEJMP(bombturf)].")
+			notify_admins = TRUE
 
 		if(!triggered_by_explosion)
-			log_game("[key_name(user)] has triggered a gibtonite deposit reaction at [AREACOORD(bombturf)].")
+			log_bomber(user, "has trigged a gibtonite deposit reaction via", src, null, notify_admins)
 		else
-			log_game("An explosion has triggered a gibtonite deposit reaction at [AREACOORD(bombturf)]")
+			log_bomber(null, "An explosion has triggered a gibtonite deposit reaction via", src, null, notify_admins)
 
 		countdown(notify_admins)
 

@@ -10,9 +10,6 @@
 	Note that AI have no need for the adjacency proc, and so this proc is a lot cleaner.
 */
 /mob/living/silicon/ai/DblClickOn(var/atom/A, params)
-	if(check_click_intercept(params,A))
-		return
-
 	if(control_disabled || incapacitated())
 		return
 
@@ -139,10 +136,8 @@
 	if(obj_flags & EMAGGED)
 		return
 
-	if(locked)
-		bolt_raise(usr)
-	else
-		bolt_drop(usr)
+	toggle_bolt(usr)
+	add_hiddenprint(usr)
 
 /obj/machinery/door/airlock/AIAltClick() // Eletrifies doors.
 	if(obj_flags & EMAGGED)
@@ -158,38 +153,35 @@
 		return
 
 	user_toggle_open(usr)
+	add_hiddenprint(usr)
 
 /obj/machinery/door/airlock/AICtrlShiftClick()  // Sets/Unsets Emergency Access Override
 	if(obj_flags & EMAGGED)
 		return
 
-	if(!emergency)
-		emergency_on(usr)
-	else
-		emergency_off(usr)
+	toggle_emergency(usr)
+	add_hiddenprint(usr)
 
 /* APC */
 /obj/machinery/power/apc/AICtrlClick() // turns off/on APCs.
 	if(can_use(usr, 1))
-		toggle_breaker()
-		add_fingerprint(usr)
+		toggle_breaker(usr)
 
 /* AI Turrets */
 /obj/machinery/turretid/AIAltClick() //toggles lethal on turrets
 	if(ailock)
 		return
-	toggle_lethal()
-	add_fingerprint(usr)
+	toggle_lethal(usr)
 
 /obj/machinery/turretid/AICtrlClick() //turns off/on Turrets
 	if(ailock)
 		return
-	toggle_on()
-	add_fingerprint(usr)
+	toggle_on(usr)
 
 /* Holopads */
 /obj/machinery/holopad/AIAltClick(mob/living/silicon/ai/user)
 	hangup_all_calls()
+	add_hiddenprint(usr)
 
 //
 // Override TurfAdjacent for AltClicking

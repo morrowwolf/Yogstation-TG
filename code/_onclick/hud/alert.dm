@@ -179,7 +179,7 @@
 
 /obj/screen/alert/disgusted
 	name = "DISGUSTED"
-	desc = "ABSOLUTELY DISGUSTIN'"
+	desc = "ABSOLUTELY DISGUSTIN'!"
 	icon_state = "gross3"
 
 /obj/screen/alert/hot
@@ -212,6 +212,22 @@ or something covering your eyes."
 	name = "High"
 	desc = "Whoa man, you're tripping balls! Careful you don't get addicted... if you aren't already."
 	icon_state = "high"
+
+/obj/screen/alert/hypnosis
+	name = "Hypnosis"
+	desc = "Something's hypnotizing you, but you're not sure what."
+	icon_state = "hypnosis"
+	var/phrase
+
+/obj/screen/alert/mind_control
+	name = "Mind Control"
+	desc = "Your mind has been hijacked! Click to view the mind control command."
+	icon_state = "mind_control"
+	var/command
+
+/obj/screen/alert/mind_control/Click()
+	var/mob/living/L = usr
+	to_chat(L, "<span class='mind_control'>[command]</span>")
 
 /obj/screen/alert/drunk //Not implemented
 	name = "Drunk"
@@ -249,7 +265,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 /obj/screen/alert/fire
 	name = "On Fire"
-	desc = "You're on fire. Stop, drop and roll to put the fire out or move to a vacuum area."
+	desc = "You're on fire. Click to stop, drop and roll to put the fire out or move to a vacuum area."
 	icon_state = "fire"
 
 /obj/screen/alert/fire/Click()
@@ -257,7 +273,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	if(!istype(L) || !L.can_resist())
 		return
 	L.changeNext_move(CLICK_CD_RESIST)
-	if(L.canmove)
+	if(L.mobility_flags & MOBILITY_MOVE)
 		return L.resist_fire() //I just want to start a flame in your hearrrrrrtttttt.
 
 
@@ -313,7 +329,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 /obj/screen/alert/bloodsense/process()
 	var/atom/blood_target
-	
+
 	if(!mob_viewer.mind)
 		return
 
@@ -422,9 +438,9 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 		if(C && C.clock_team)
 			textlist += "[C.clock_team.eminence ? "There is an Eminence." : "<b>There is no Eminence! Get one ASAP!</b>"]<br>"
 		textlist += "There are currently <b>[servants]</b> servant[servants > 1 ? "s" : ""] of Ratvar.<br>"
-		for(var/i in SSticker.scripture_states)
+		for(var/i in GLOB.scripture_states)
 			if(i != SCRIPTURE_DRIVER) //ignore the always-unlocked stuff
-				textlist += "[i] Scripture: <b>[SSticker.scripture_states[i] ? "UNLOCKED":"LOCKED"]</b><br>"
+				textlist += "[i] Scripture: <b>[GLOB.scripture_states[i] ? "UNLOCKED":"LOCKED"]</b><br>"
 		var/obj/structure/destructible/clockwork/massive/celestial_gateway/G = GLOB.ark_of_the_clockwork_justiciar
 		if(G)
 			var/time_info = G.get_arrival_time(FALSE)
@@ -437,7 +453,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 				time_name = "until the Ark finishes summoning"
 			if(time_info)
 				textlist += "<b>[time_info / 60] minutes</b> [time_name].<br>"
-		textlist += "<b>[DisplayPower(get_clockwork_power())] / [DisplayPower(MAX_CLOCKWORK_POWER)]</b> power available for use."
+		textlist += "<b>[DisplayEnergy(get_clockwork_power())] / [DisplayEnergy(MAX_CLOCKWORK_POWER)]</b> power available for use."
 		desc = textlist.Join()
 	..()
 
@@ -478,6 +494,13 @@ Recharging stations are available in robotics, the dormitory bathrooms, and the 
 	name = "Low Charge"
 	desc = "Unit's power cell is running low. Recharging stations are available in robotics, the dormitory bathrooms, and the AI satellite."
 	icon_state = "lowcell"
+
+//Ethereal
+
+/obj/screen/alert/etherealcharge
+	name = "Low Blood Charge"
+	desc = "Your blood's electric charge is running low, find a source of charge for your blood. Use a recharging station found in robotics or the dormitory bathrooms, or eat some Ethereal-friendly food."
+	icon_state = "etherealcharge"
 
 //Need to cover all use cases - emag, illegal upgrade module, malf AI hack, traitor cyborg
 /obj/screen/alert/hacked
@@ -585,7 +608,7 @@ so as to remain in compliance with the most up-to-date laws."
 	if(!istype(L) || !L.can_resist())
 		return
 	L.changeNext_move(CLICK_CD_RESIST)
-	if((L.canmove) && (L.last_special <= world.time))
+	if((L.mobility_flags & MOBILITY_MOVE) && (L.last_special <= world.time))
 		return L.resist_restraints()
 
 /obj/screen/alert/restrained/buckled/Click()

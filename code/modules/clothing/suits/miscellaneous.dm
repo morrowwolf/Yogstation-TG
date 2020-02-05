@@ -62,7 +62,7 @@
 
 /obj/item/clothing/suit/cyborg_suit
 	name = "cyborg suit"
-	desc = "Suit for a cyborg costume."
+	desc = "A suit for a cyborg costume."
 	icon_state = "death"
 	item_state = "death"
 	flags_1 = CONDUCT_1
@@ -72,7 +72,7 @@
 
 /obj/item/clothing/suit/justice
 	name = "justice suit"
-	desc = "this pretty much looks ridiculous" //Needs no fixing
+	desc = "This pretty much looks ridiculous." //Needs no fixing
 	icon_state = "justice"
 	item_state = "justice"
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
@@ -167,16 +167,6 @@
 	icon_state = "griffin_wings"
 	item_state = "griffin_wings"
 
-
-/obj/item/clothing/suit/holidaypriest
-	name = "holiday priest"
-	desc = "This is a nice holiday, my son."
-	icon_state = "holidaypriest"
-	item_state = "w_suit"
-	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
-	allowed = list(/obj/item/storage/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/food/drinks/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
-
 /obj/item/clothing/suit/cardborg
 	name = "cardborg suit"
 	desc = "An ordinary cardboard box with holes cut in the sides."
@@ -237,7 +227,10 @@
 	desc = "Forced to live on your shameful acting as a fake Mexican, you and your poncho have grown inseparable. Literally."
 	icon_state = "ponchoshame"
 	item_state = "ponchoshame"
-	item_flags = NODROP
+
+/obj/item/clothing/suit/poncho/ponchoshame/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, SHAMEBRERO_TRAIT)
 
 /obj/item/clothing/suit/whitedress
 	name = "white dress"
@@ -255,7 +248,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	cold_protection = CHEST|GROIN|ARMS
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT	//Space carp like space, so you should too
-	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/ballistic/automatic/speargun)
+	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/pneumatic_cannon/speargun)
 	hoodtype = /obj/item/clothing/head/hooded/carp_hood
 
 /obj/item/clothing/head/hooded/carp_hood
@@ -266,6 +259,16 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	flags_inv = HIDEHAIR|HIDEEARS
+
+/obj/item/clothing/head/hooded/carp_hood/equipped(mob/living/carbon/human/user, slot)
+	..()
+	if (slot == SLOT_HEAD)
+		user.faction |= "carp"
+
+/obj/item/clothing/head/hooded/carp_hood/dropped(mob/living/carbon/human/user)
+	..()
+	if (user.head == src)
+		user.faction -= "carp"
 
 /obj/item/clothing/suit/hooded/ian_costume	//It's Ian, rub his bell- oh god what happened to his inside parts?
 	name = "corgi costume"
@@ -355,15 +358,21 @@
 
 /obj/item/clothing/suit/nerdshirt
 	name = "gamer shirt"
-	desc = "A baggy shirt with vintage game character Phanic the Weasel. Why would anyone wear this?"
+	desc = "A baggy shirt featuring vintage game character Phanic the Weasel. Why would anyone wear this?"
 	icon_state = "nerdshirt"
 	item_state = "nerdshirt"
 
 /obj/item/clothing/suit/vapeshirt //wearing this is asking to get beat.
 	name = "Vape Naysh shirt"
-	desc = "A cheap white T-shirt with a big tacky \"VN\" on the front, Why would you wear this unironically?"
+	desc = "A cheap white t-shirt with a big tacky \"VN\" on the front, Why would you wear this unironically?"
 	icon_state = "vapeshirt"
 	item_state = "vapeshirt"
+
+/obj/item/clothing/suit/striped_sweater
+	name = "striped sweater"
+	desc = "Reminds you of someone, but you just can't put your finger on it..."
+	icon_state = "waldo_shirt"
+	item_state = "waldo_shirt"
 
 /obj/item/clothing/suit/jacket
 	name = "bomber jacket"
@@ -452,7 +461,7 @@
 
 /obj/item/clothing/suit/gothcoat
 	name = "gothic coat"
-	desc = "Perfect for those who want stalk in a corner of a bar."
+	desc = "Perfect for those who want to stalk in a corner of the bar."
 	icon_state = "gothcoat"
 	item_state = "gothcoat"
 
@@ -471,6 +480,21 @@
 	icon_state = "pharoah"
 	icon_state = "pharoah"
 	body_parts_covered = CHEST|GROIN
+
+/obj/item/clothing/suit/caution
+	name = "wet floor sign"
+	desc = "Caution! Wet Floor!"
+	icon_state = "caution"
+	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
+	force = 1
+	throwforce = 3
+	throw_speed = 2
+	throw_range = 5
+	w_class = WEIGHT_CLASS_SMALL
+	body_parts_covered = CHEST|GROIN
+	attack_verb = list("warned", "cautioned", "smashed")
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 
 
 
@@ -528,7 +552,7 @@
 	name = "medical winter coat"
 	icon_state = "coatmedical"
 	item_state = "coatmedical"
-	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 50, "rad" = 0, "fire" = 0, "acid" = 45)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/medical
 

@@ -164,11 +164,14 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 // Please don't stuff random bullshit here,
 // 	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
-/datum/controller/master/Initialize(delay, init_sss)
+/datum/controller/master/Initialize(delay, init_sss, tgs_prime)
 	set waitfor = 0
 
 	if(delay)
 		sleep(delay)
+
+	if(tgs_prime)
+		world.TgsInitializationComplete()
 
 	if(init_sss)
 		init_subtypes(/datum/controller/subsystem, subsystems)
@@ -206,10 +209,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	// Sort subsystems by display setting for easy access.
 	sortTim(subsystems, /proc/cmp_subsystem_display)
 	// Set world options.
-	world.fps = CONFIG_GET(number/fps)
+	world.change_fps(CONFIG_GET(number/fps))
 	var/initialized_tod = REALTIMEOFDAY
 
-	world.TgsInitializationComplete()
 	if(sleep_offline_after_initializations)
 		world.sleep_offline = TRUE
 	sleep(1)

@@ -14,11 +14,13 @@ REVIVAL_CLONING
 ## amount of time (in hundredths of seconds) for which a brain retains the "spark of life" after the person's death (set to -1 for infinite)
 REVIVAL_BRAIN_LIFE -1
 
-## RENAMING ###
-
 ## OOC DURING ROUND ###
 ## Comment this out if you want OOC to be automatically disabled during the round, it will be enabled during the lobby and after the round end results.
 OOC_DURING_ROUND
+
+## LOOC DURING ROUND ###
+## Comment this out if you want LOOC to be automatically disabled during the round, it will be enabled during the lobby and after the round end results.
+LOOC_DURING_ROUND
 
 ## EMOJI ###
 ## Comment this out if you want to disable emojis
@@ -39,7 +41,7 @@ WALK_DELAY 4
 
 ## The variables below affect the movement of specific mob types. THIS AFFECTS ALL SUBTYPES OF THE TYPE YOU CHOOSE!
 ## Entries completely override all subtypes. Later entries have precedence over earlier entries.
-## This means if you put /mob 0 on the last entry, it will null out all changes, while if you put /mob as the first entry and 
+## This means if you put /mob 0 on the last entry, it will null out all changes, while if you put /mob as the first entry and
 ## /mob/living/carbon/human on the last entry, the last entry will override the first.
 ##MULTIPLICATIVE_MOVESPEED /mob/living/carbon/human 0
 ##MULTIPLICATIVE_MOVESPEED /mob/living/silicon/robot 0
@@ -55,6 +57,20 @@ MULTIPLICATIVE_MOVESPEED /mob/living/simple_animal 1
 
 ## If uncommented, this forces all players to use random names !and appearances!.
 #FORCE_RANDOM_NAMES
+
+## Unhash this to turn on automatic reopening of a player's job if they suicide at roundstart
+#REOPEN_ROUNDSTART_SUICIDE_ROLES
+
+## Unhash to enable reopening of command level positions
+#REOPEN_ROUNDSTART_SUICIDE_ROLES_COMMAND_POSITIONS
+
+## Define the delay for roles to be reopened after the round starts in seconds.
+## Has a minimum delay of 30 seconds, though it's suggested to keep over 1 min
+## If undefined, the delay defaults to 4 minutes.
+#REOPEN_ROUNDSTART_SUICIDE_ROLES_DELAY 240
+
+## Unhash to enable a printed command report for reopened roles listing what roles were reopened.
+#REOPEN_ROUNDSTART_SUICIDE_ROLES_COMMAND_REPORT
 
 
 ## ALERT LEVELS ###
@@ -79,22 +95,21 @@ ALERT_DELTA Destruction of the station is imminent. All crew are instructed to o
 PROBABILITY TRAITOR 5
 PROBABILITY TRAITORBRO 2
 PROBABILITY TRAITORCHAN 4
+PROBABILITY TRAITORVAMP 3
+PROBABILITY VAMPIRE 3
 PROBABILITY INTERNAL_AFFAIRS 3
+PROBABILITY MALF 4
 PROBABILITY NUCLEAR 2
 PROBABILITY REVOLUTION 2
 PROBABILITY CULT 2
 PROBABILITY CHANGELING 2
 PROBABILITY WIZARD 4
-PROBABILITY MONKEY 0
 PROBABILITY METEOR 0
 PROBABILITY EXTENDED 0
 PROBABILITY SECRET_EXTENDED 0
 PROBABILITY DEVIL 0
 PROBABILITY DEVIL_AGENTS 0
 PROBABILITY CLOWNOPS 0
-
-## You probably want to keep sandbox off by default for secret and random.
-PROBABILITY SANDBOX 0
 
 ## Percent weight reductions for three of the most recent modes
 
@@ -113,7 +128,8 @@ CONTINUOUS CULT
 CONTINUOUS CLOCKWORK_CULT
 CONTINUOUS CHANGELING
 CONTINUOUS WIZARD
-#CONTINUOUS MONKEY
+CONTINUOUS HIVEMIND
+CONTINUOUS MALF
 
 ##Note: do not toggle continuous off for these modes, as they have no antagonists and would thus end immediately!
 
@@ -136,11 +152,12 @@ MIDROUND_ANTAG CLOCKWORK_CULT
 MIDROUND_ANTAG CHANGELING
 MIDROUND_ANTAG WIZARD
 #MIDROUND_ANTAG  MONKEY
+MIDROUND_ANTAG MALF
 
-## Uncomment these for overrides of the minimum / maximum number of players in a round type. 
+## Uncomment these for overrides of the minimum / maximum number of players in a round type.
 ## If you set any of these occasionally check to see if you still need them as the modes
 ## will still be actively rebalanced around the SUGGESTED populations, not your overrides.
-## Notes: For maximum number of players a value of -1 means no maximum. Setting minimums to 
+## Notes: For maximum number of players a value of -1 means no maximum. Setting minimums to
 ## VERY low numbers (< 5) can lead to errors if the roundtypes were not designed for that.
 
 #MIN_POP TRAITOR 0
@@ -218,6 +235,9 @@ BROTHER_OBJECTIVES_AMOUNT 2
 ## Uncomment to prohibit assistants from becoming most antagonists.
 #PROTECT_ASSISTANT_FROM_ANTAGONIST
 
+## Uncomment to prohibit AI from becoming traitor (not malf!).
+#PROTECT_AI_FROM_TRAITOR
+
 ## If non-human species are barred from joining as a head of staff
 #ENFORCE_HUMAN_AUTHORITY
 
@@ -260,6 +280,9 @@ EVENTS_MIN_PLAYERS_MUL 1
 ## Allow the AI job to be picked.
 ALLOW_AI
 
+## Allow the AI Multicamera feature to be used by AI players
+ALLOW_AI_MULTICAM
+
 ## Secborg ###
 ## Uncomment to prevent the security cyborg module from being chosen
 #DISABLE_SECBORG
@@ -269,6 +292,9 @@ ALLOW_AI
 #DISABLE_PEACEBORG
 
 ## AWAY MISSIONS ###
+
+## Uncomment to load the virtual reality hub map
+#VIRTUAL_REALITY
 
 ## Uncomment to load one of the missions from awaymissionconfig.txt at roundstart.
 #ROUNDSTART_AWAY
@@ -308,17 +334,14 @@ SEC_START_BRIG
 ## Uncomment to let ghosts spin chairs. You may be wondering why this is a config option. Don't ask.
 #GHOST_INTERACTION
 
+## NEAR-DEATH EXPERIENCE ###
+## Comment this out to disable mobs hearing ghosts when unconscious and very close to death
+NEAR_DEATH_EXPERIENCE
+
 ## NON-VOCAL SILICONS ###
 ## Uncomment these to stop the AI, or cyborgs, from having vocal communication.
 #SILENT_AI
 #SILENT_BORG
-
-## SANDBOX PANEL AUTOCLOSE ###
-## The sandbox panel's item spawning dialog now stays open even after you click an option.
-## If you find that your players are abusing the sandbox panel, this option may slow them down
-## without preventing people from using it properly.
-## Only functions in sandbox game mode.
-#SANDBOX_AUTOCLOSE
 
 ## ROUNDSTART SILICON LAWS ###
 ## This controls what the AI's laws are at the start of the round.
@@ -397,6 +420,15 @@ LAW_WEIGHT buildawall,0
 ## Attempting to upload laws past this point will fail unless the AI is reset
 SILICON_MAX_LAW_AMOUNT 12
 
+##------------------------------------------------
+
+## SILICON LAW MAX LENGTH ###
+## The maximum number of characters in a law uploaded
+## Affects Freeform, Core Freeform, and Syndicate Hacked boards.
+#MAX_LAW_LEN 1024
+
+##------------------------------------------------
+
 ## Roundstart Races
 ##-------------------------------------------------------------------------------------------
 ## Uncommenting races will allow them to be choosen at roundstart while join_with_muntant_race is on. You'll need at least one.
@@ -406,12 +438,16 @@ ROUNDSTART_RACES human
 
 ## Races that are strictly worse than humans that could probably be turned on without balance concerns
 ROUNDSTART_RACES lizard
+#ROUNDSTART_RACES gorilla
 #ROUNDSTART_RACES fly
 #ROUNDSTART_RACES moth
 ROUNDSTART_RACES plasmaman
 #ROUNDSTART_RACES shadow
+ROUNDSTART_RACES preternis
+#ROUNDSTART_RACES snail
 
 ## Races that are better than humans in some ways, but worse in others
+ROUNDSTART_RACES ethereal
 #ROUNDSTART_RACES jelly
 #ROUNDSTART_RACES golem
 #ROUNDSTART_RACES adamantine
@@ -432,6 +468,10 @@ ROUNDSTART_RACES pod
 #ROUNDSTART_RACES agent
 
 ##-------------------------------------------------------------------------------------------
+
+## Roundstart no-reset races
+## Races defined here will not cause existing characters to be reset to human if they currently have a non-roundstart species defined.
+#ROUNDSTART_NO_HARD_CHECK felinid
 
 ## Uncomment to give players the choice of joining as a human with mutant bodyparts before they join the game
 #JOIN_WITH_MUTANT_HUMANS
@@ -456,13 +496,6 @@ MIDROUND_ANTAG_TIME_CHECK 60
 
 ## A ratio of living to total crew members, the lower this is, the more people will have to die in order for midround antag to be skipped
 MIDROUND_ANTAG_LIFE_CHECK 0.7
-
-##Limit Spell Choices##
-## Uncomment to disallow wizards from using certain spells that may be too chaotic/fun for your playerbase
-
-#NO_SUMMON_GUNS
-#NO_SUMMON_MAGIC
-#NO_SUMMON_EVENTS
 
 ## Comment this out for "normal" explosions, which ignore obstacles
 ## Uncomment for explosions that react to doors and walls
@@ -530,3 +563,6 @@ ROUNDSTART_TRAITS
 
 ## A cap on how many monkeys may be created via monkey cubes
 MONKEYCAP 64
+
+## Enable the capitalist agenda on your server.
+ECONOMY

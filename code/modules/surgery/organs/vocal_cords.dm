@@ -3,12 +3,14 @@
 #define COOLDOWN_MEME 300
 #define COOLDOWN_NONE 100
 
-/obj/item/organ/vocal_cords //organs that are activated through speech with the :x channel
+/obj/item/organ/vocal_cords //organs that are activated through speech with the :x/MODE_KEY_VOCALCORDS channel
 	name = "vocal cords"
 	icon_state = "appendix"
 	zone = BODY_ZONE_PRECISE_MOUTH
 	slot = ORGAN_SLOT_VOICE
 	gender = PLURAL
+	decay_factor = 0	//we don't want decaying vocal cords to somehow matter or appear on scanners since they don't do anything damaged
+	healing_factor = 0
 	var/list/spans = null
 
 /obj/item/organ/vocal_cords/proc/can_speak_with() //if there is any limitation to speaking with these cords
@@ -76,8 +78,10 @@
 		return FALSE
 	if(!owner)
 		return FALSE
-	if(!owner.can_speak())
-		return FALSE
+	if(isliving(owner))
+		var/mob/living/L = owner
+		if(!L.can_speak_vocal())
+			return FALSE
 	if(check_flags & AB_CHECK_CONSCIOUS)
 		if(owner.stat)
 			return FALSE
@@ -102,7 +106,7 @@
 		return FALSE
 	if(!owner)
 		return FALSE
-	if(!owner.can_speak())
+	if(!owner.can_speak_vocal())
 		to_chat(owner, "<span class='warning'>You are unable to speak!</span>")
 		return FALSE
 	return TRUE
@@ -137,7 +141,7 @@
 	user.say(message, spans = span_list, sanitize = FALSE)
 
 	message = lowertext(message)
-	var/mob/living/list/listeners = list()
+	var/list/mob/living/listeners = list()
 	for(var/mob/living/L in get_hearers_in_view(8, user))
 		if(L.can_hear() && !L.anti_magic_check(FALSE, TRUE) && L.stat != DEAD)
 			if(L == user && !include_speaker)
@@ -265,7 +269,7 @@
 		cooldown = COOLDOWN_STUN
 		for(var/V in listeners)
 			var/mob/living/L = V
-			L.Knockdown(60 * power_multiplier)
+			L.Paralyze(60 * power_multiplier)
 
 	//SLEEP
 	else if((findtext(message, sleep_words)))
@@ -305,7 +309,7 @@
 		cooldown = COOLDOWN_DAMAGE
 		for(var/V in listeners)
 			var/mob/living/L = V
-			L.heal_overall_damage(10 * power_multiplier, 10 * power_multiplier, 0, FALSE, FALSE)
+			L.heal_overall_damage(10 * power_multiplier, 10 * power_multiplier)
 
 	//BRUTE DAMAGE
 	else if((findtext(message, hurt_words)))
@@ -484,11 +488,8 @@
 		cooldown = COOLDOWN_DAMAGE //because stun removal
 		for(var/V in listeners)
 			var/mob/living/L = V
-			if(L.resting)
-				L.lay_down() //aka get up
-			L.SetStun(0)
-			L.SetKnockdown(0)
-			L.SetUnconscious(0) //i said get up i don't care if you're being tased
+			L.set_resting(FALSE)
+			L.SetAllImmobility(0)
 
 	//SIT
 	else if((findtext(message, sit_words)))

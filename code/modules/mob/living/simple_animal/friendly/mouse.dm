@@ -13,7 +13,7 @@
 	see_in_dark = 6
 	maxHealth = 5
 	health = 5
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 1)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/mouse = 1)
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "splats"
@@ -25,6 +25,7 @@
 	var/body_color //brown, gray and white, leave blank for random
 	gold_core_spawnable = FRIENDLY_SPAWN
 	var/chew_probability = 1
+	var/full = FALSE
 
 /mob/living/simple_animal/mouse/Initialize()
 	. = ..()
@@ -34,8 +35,7 @@
 	icon_state = "mouse_[body_color]"
 	icon_living = "mouse_[body_color]"
 	icon_dead = "mouse_[body_color]_dead"
-
-
+	
 /mob/living/simple_animal/mouse/proc/splat()
 	src.health = 0
 	src.icon_dead = "mouse_[body_color]_splat"
@@ -76,7 +76,29 @@
 				else
 					C.deconstruct()
 					visible_message("<span class='warning'>[src] chews through the [C].</span>")
+					
+/mob/living/simple_animal/mouse/Move()
+	. = ..()
+	if(!stat)
+		eat_cheese()
 
+/mob/living/simple_animal/mouse/proc/eat_cheese()
+	var/obj/item/reagent_containers/food/snacks/cheesewedge/CW = locate(/obj/item/reagent_containers/food/snacks/cheesewedge) in loc
+	if(!QDELETED(CW) && full == FALSE)
+		say("Burp!")
+		visible_message("<span class='warning'>[src] gobbles up the [CW].</span>")
+		qdel(CW)
+		full = TRUE
+		addtimer(VARSET_CALLBACK(src, full, FALSE), 3 MINUTES)
+		
+/mob/living/simple_animal/mouse/attackby(obj/item/O, mob/user, params)
+	if(istype(O, /obj/item/reagent_containers/food/snacks/cheesewedge)) 
+		to_chat(user, "<span class='notice'>You feed [O] to [src].</span>")
+		visible_message("[src] squeaks happily!")
+		qdel(O)
+	else
+		return ..()
+		
 /*
  * Mouse types
  */
@@ -104,14 +126,25 @@
 
 /obj/item/reagent_containers/food/snacks/deadmouse
 	name = "dead mouse"
-	desc = "It looks like somebody dropped the bass on it. A lizard's favorite meal."
+	desc = "It looks like somebody dropped the bass on it. A Lizard's favorite meal."
 	icon = 'icons/mob/animal.dmi'
 	icon_state = "mouse_gray_dead"
 	bitesize = 3
 	eatverb = "devour"
-	list_reagents = list("nutriment" = 3, "vitamin" = 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/consumable/nutriment/vitamin = 2)
 	foodtype = GROSS | MEAT | RAW
-	grind_results = list("blood" = 20, "liquidgibs" = 5)
+	grind_results = list(/datum/reagent/blood = 20, /datum/reagent/liquidgibs = 5)
+
+/obj/item/reagent_containers/food/snacks/deadmouse/attackby(obj/item/I, mob/user, params)
+	if(I.is_sharp() && user.a_intent == INTENT_HARM)
+		if(isturf(loc))
+			new /obj/item/reagent_containers/food/snacks/meat/slab/mouse(loc)
+			to_chat(user, "<span class='notice'>You butcher [src].</span>")
+			qdel(src)
+		else
+			to_chat(user, "<span class='warning'>You need to put [src] on a surface to butcher it!</span>")
+	else
+		return ..()
 
 /obj/item/reagent_containers/food/snacks/deadmouse/on_grind()
 	reagents.clear_reagents()

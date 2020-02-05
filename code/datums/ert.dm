@@ -53,3 +53,21 @@
 	rename_team = "Inquisition"
 	mission = "Destroy any traces of paranormal activity aboard the station."
 	polldesc = "a Nanotrasen paranormal response team"
+
+/datum/ert/janitor
+	roles = list(/datum/antagonist/ert/janitor, /datum/antagonist/ert/janitor/heavy)
+	leader_role = /datum/antagonist/ert/janitor/heavy
+	teamsize = 4
+	opendoors = FALSE
+	rename_team = "Janitor"
+	mission = "Clean up EVERYTHING."
+	polldesc = "a Nanotrasen Janitorial Response Team"
+
+/datum/ert/clown
+	roles = list(/datum/antagonist/ert/clown, /datum/antagonist/ert/clown/robust)
+	leader_role = /datum/antagonist/ert/clown/robust
+	teamsize = 7
+	opendoors = FALSE
+	rename_team = "HONK Squad"
+	mission = "Bring joy and happiness to all the crew the only way a clown can. Honk!"
+	polldesc = "a Nanotrasen Clown Response Team"

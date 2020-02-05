@@ -1,7 +1,7 @@
 /obj/machinery/particle_accelerator/control_box
 	name = "Particle Accelerator Control Console"
 	desc = "This controls the density of the particles."
-	icon = 'icons/obj/machines/particle_accelerator.dmi'
+	icon = 'yogstation/icons/obj/machines/particle_accelerator.dmi'//Yogs PA Sprites
 	icon_state = "control_box"
 	anchored = FALSE
 	density = TRUE
@@ -12,11 +12,11 @@
 	var/strength_upper_limit = 2
 	var/interface_control = 1
 	var/list/obj/structure/particle_accelerator/connected_parts
-	var/assembled = 0
+	var/assembled = FALSE
 	var/construction_state = PA_CONSTRUCTION_UNSECURED
-	var/active = 0
+	var/active = FALSE
 	var/strength = 0
-	var/powered = 0
+	var/powered = FALSE
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
 
 /obj/machinery/particle_accelerator/control_box/Initialize()
@@ -34,35 +34,32 @@
 	QDEL_NULL(wires)
 	return ..()
 
-/obj/machinery/particle_accelerator/control_box/attack_hand(mob/user)
-	. = ..()
-	if(.)
-		return
-	if(construction_state == PA_CONSTRUCTION_COMPLETE)
-		interact(user)
-	else if(construction_state == PA_CONSTRUCTION_PANEL_OPEN)
+/obj/machinery/particle_accelerator/control_box/multitool_act(mob/living/user, obj/item/I)
+	..()
+	if(construction_state == PA_CONSTRUCTION_PANEL_OPEN)
 		wires.interact(user)
+		return TRUE
 
 /obj/machinery/particle_accelerator/control_box/proc/update_state()
 	if(construction_state < PA_CONSTRUCTION_COMPLETE)
 		use_power = NO_POWER_USE
-		assembled = 0
-		active = 0
+		assembled = FALSE
+		active = FALSE
 		for(var/CP in connected_parts)
 			var/obj/structure/particle_accelerator/part = CP
 			part.strength = null
-			part.powered = 0
+			part.powered = FALSE
 			part.update_icon()
 		connected_parts.Cut()
 		return
 	if(!part_scan())
 		use_power = IDLE_POWER_USE
-		active = 0
+		active = FALSE
 		connected_parts.Cut()
 
 /obj/machinery/particle_accelerator/control_box/update_icon()
 	if(active)
-		icon_state = "control_boxp1"
+		icon_state = "control_boxp[strength]"		//yogs- fix sprite not updating		(note that /tg/ PA power 2 sprite is incomplete)
 	else
 		if(use_power)
 			if(assembled)
@@ -137,7 +134,7 @@
 /obj/machinery/particle_accelerator/control_box/power_change()
 	..()
 	if(stat & NOPOWER)
-		active = 0
+		active = FALSE
 		use_power = NO_POWER_USE
 	else if(!stat && construction_state == PA_CONSTRUCTION_COMPLETE)
 		use_power = IDLE_POWER_USE
@@ -160,48 +157,48 @@
 	var/odir = turn(dir,180)
 	var/turf/T = loc
 
-	assembled = 0
+	assembled = FALSE
 	critical_machine = FALSE
 
 	var/obj/structure/particle_accelerator/fuel_chamber/F = locate() in orange(1,src)
 	if(!F)
-		return 0
+		return FALSE
 
 	setDir(F.dir)
 	connected_parts.Cut()
 
 	T = get_step(T,rdir)
 	if(!check_part(T, /obj/structure/particle_accelerator/fuel_chamber))
-		return 0
+		return FALSE
 	T = get_step(T,odir)
 	if(!check_part(T, /obj/structure/particle_accelerator/end_cap))
-		return 0
+		return FALSE
 	T = get_step(T,dir)
 	T = get_step(T,dir)
 	if(!check_part(T, /obj/structure/particle_accelerator/power_box))
-		return 0
+		return FALSE
 	T = get_step(T,dir)
 	if(!check_part(T, /obj/structure/particle_accelerator/particle_emitter/center))
-		return 0
+		return FALSE
 	T = get_step(T,ldir)
 	if(!check_part(T, /obj/structure/particle_accelerator/particle_emitter/left))
-		return 0
+		return FALSE
 	T = get_step(T,rdir)
 	T = get_step(T,rdir)
 	if(!check_part(T, /obj/structure/particle_accelerator/particle_emitter/right))
-		return 0
+		return FALSE
 
-	assembled = 1
+	assembled = TRUE
 	critical_machine = TRUE	//Only counts if the PA is actually assembled.
-	return 1
+	return TRUE
 
 /obj/machinery/particle_accelerator/control_box/proc/check_part(turf/T, type)
 	var/obj/structure/particle_accelerator/PA = locate(/obj/structure/particle_accelerator) in T
 	if(istype(PA, type) && (PA.construction_state == PA_CONSTRUCTION_COMPLETE))
 		if(PA.connect_master(src))
 			connected_parts.Add(PA)
-			return 1
-	return 0
+			return TRUE
+	return FALSE
 
 
 /obj/machinery/particle_accelerator/control_box/proc/toggle_power()
@@ -211,23 +208,31 @@
 	log_game("PA Control Computer turned [active ?"ON":"OFF"] by [usr ? "[key_name(usr)]" : "outside forces"] at [AREACOORD(src)]")
 	if(active)
 		use_power = ACTIVE_POWER_USE
+		active_power_usage = initial(active_power_usage) * (1 + strength) // Yogs -- Makes the PA use different amounts of power depending on its power level.
 		for(var/CP in connected_parts)
 			var/obj/structure/particle_accelerator/part = CP
 			part.strength = strength
-			part.powered = 1
+			part.powered = TRUE
 			part.update_icon()
 	else
 		use_power = IDLE_POWER_USE
 		for(var/CP in connected_parts)
 			var/obj/structure/particle_accelerator/part = CP
 			part.strength = null
-			part.powered = 0
+			part.powered = FALSE
 			part.update_icon()
-	return 1
+	return TRUE
 
 
 /obj/machinery/particle_accelerator/control_box/ui_interact(mob/user)
 	. = ..()
+
+	if(construction_state == PA_CONSTRUCTION_PANEL_OPEN)
+		wires.interact(user)
+		return
+	if(construction_state != PA_CONSTRUCTION_COMPLETE)
+		return
+
 	if((get_dist(src, user) > 1) || (stat & (BROKEN|NOPOWER)))
 		if(!issilicon(user))
 			user.unset_machine()
@@ -257,14 +262,14 @@
 	popup.open()
 
 /obj/machinery/particle_accelerator/control_box/examine(mob/user)
-	..()
+	. = ..()
 	switch(construction_state)
 		if(PA_CONSTRUCTION_UNSECURED)
-			to_chat(user, "Looks like it's not attached to the flooring.")
+			. += "Looks like it's not attached to the flooring."
 		if(PA_CONSTRUCTION_UNWIRED)
-			to_chat(user, "It is missing some cables.")
+			. += "It is missing some cables."
 		if(PA_CONSTRUCTION_PANEL_OPEN)
-			to_chat(user, "The panel is open.")
+			. += "The panel is open."
 
 
 /obj/machinery/particle_accelerator/control_box/attackby(obj/item/W, mob/user, params)
@@ -272,7 +277,7 @@
 
 	switch(construction_state)
 		if(PA_CONSTRUCTION_UNSECURED)
-			if(istype(W, /obj/item/wrench) && !isinspace())
+			if(W.tool_behaviour == TOOL_WRENCH && !isinspace())
 				W.play_tool_sound(src, 75)
 				anchored = TRUE
 				user.visible_message("[user.name] secures the [name] to the floor.", \
@@ -280,7 +285,7 @@
 				construction_state = PA_CONSTRUCTION_UNWIRED
 				did_something = TRUE
 		if(PA_CONSTRUCTION_UNWIRED)
-			if(istype(W, /obj/item/wrench))
+			if(W.tool_behaviour == TOOL_WRENCH)
 				W.play_tool_sound(src, 75)
 				anchored = FALSE
 				user.visible_message("[user.name] detaches the [name] from the floor.", \
@@ -295,18 +300,18 @@
 					construction_state = PA_CONSTRUCTION_PANEL_OPEN
 					did_something = TRUE
 		if(PA_CONSTRUCTION_PANEL_OPEN)
-			if(istype(W, /obj/item/wirecutters))//TODO:Shock user if its on?
+			if(W.tool_behaviour == TOOL_WIRECUTTER)//TODO:Shock user if its on?
 				user.visible_message("[user.name] removes some wires from the [name].", \
 					"You remove some wires.")
 				construction_state = PA_CONSTRUCTION_UNWIRED
 				did_something = TRUE
-			else if(istype(W, /obj/item/screwdriver))
+			else if(W.tool_behaviour == TOOL_SCREWDRIVER)
 				user.visible_message("[user.name] closes the [name]'s access panel.", \
 					"You close the access panel.")
 				construction_state = PA_CONSTRUCTION_COMPLETE
 				did_something = TRUE
 		if(PA_CONSTRUCTION_COMPLETE)
-			if(istype(W, /obj/item/screwdriver))
+			if(W.tool_behaviour == TOOL_SCREWDRIVER)
 				user.visible_message("[user.name] opens the [name]'s access panel.", \
 					"You open the access panel.")
 				construction_state = PA_CONSTRUCTION_PANEL_OPEN

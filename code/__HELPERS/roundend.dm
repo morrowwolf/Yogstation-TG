@@ -192,6 +192,9 @@
 	//Set news report and mode result
 	mode.set_round_result()
 
+	// Check whether the cargo king achievement was achieved
+	cargoking()
+
 	send2irc("Server", "Round just ended.")
 
 	if(length(CONFIG_GET(keyed_list/cross_server)))
@@ -226,6 +229,8 @@
 
 	//stop collecting feedback during grifftime
 	SSblackbox.Seal()
+
+	toggle_all_ctf()
 
 	sleep(50)
 	ready_for_reboot = TRUE
@@ -313,7 +318,7 @@
 	roundend_report.set_content(content)
 	roundend_report.stylesheets = list()
 	roundend_report.add_stylesheet("roundend", 'html/browser/roundend.css')
-	roundend_report.open(0)
+	roundend_report.open(FALSE)
 
 /datum/controller/subsystem/ticker/proc/personal_report(client/C, popcount)
 	var/list/parts = list()
@@ -359,7 +364,9 @@
 		if(aiPlayer.mind)
 			parts += "<b>[aiPlayer.name]</b> (Played by: <b>[aiPlayer.mind.key]</b>)'s laws [aiPlayer.stat != DEAD ? "at the end of the round" : "when it was <span class='redtext'>deactivated</span>"] were:"
 			parts += aiPlayer.laws.get_law_list(include_zeroth=TRUE)
-
+		else if(aiPlayer.deployed_shell?.mind)
+			parts += "<b>[aiPlayer.name]</b> (Played by: <b>[aiPlayer.deployed_shell.mind.key]</b>)'s laws [aiPlayer.stat != DEAD ? "at the end of the round" : "when it was <span class='redtext'>deactivated</span>"] were:"
+			parts += aiPlayer.laws.get_law_list(include_zeroth=TRUE)
 		parts += "<b>Total law changes: [aiPlayer.law_change_counter]</b>"
 
 		if (aiPlayer.connected_robots.len)
@@ -410,11 +417,15 @@
 	var/list/all_teams = list()
 	var/list/all_antagonists = list()
 
+	for(var/datum/team/A in GLOB.antagonist_teams)
+		if(!A.members)
+			continue
+		all_teams |= A
+
 	for(var/datum/antagonist/A in GLOB.antagonists)
 		if(!A.owner)
 			continue
-		all_teams |= A.get_team()
-		all_antagonists += A
+		all_antagonists |= A
 
 	for(var/datum/team/T in all_teams)
 		result += T.roundend_report()
@@ -510,10 +521,12 @@
 	return parts.Join()
 
 
-/proc/printobjectives(datum/mind/ply)
+/proc/printobjectives(list/objectives)
+	if(!objectives || !objectives.len)
+		return
 	var/list/objective_parts = list()
 	var/count = 1
-	for(var/datum/objective/objective in ply.objectives)
+	for(var/datum/objective/objective in objectives)
 		if(objective.check_completion())
 			objective_parts += "<b>Objective #[count]</b>: [objective.explanation_text] <span class='greentext'>Success!</span>"
 		else
@@ -522,10 +535,21 @@
 	return objective_parts.Join("<br>")
 
 /datum/controller/subsystem/ticker/proc/save_admin_data()
+	if(IsAdminAdvancedProcCall())
+		to_chat(usr, "<span class='admin prefix'>Admin rank DB Sync blocked: Advanced ProcCall detected.</span>")
+		return
 	if(CONFIG_GET(flag/admin_legacy_system)) //we're already using legacy system so there's nothing to save
 		return
 	else if(load_admins(TRUE)) //returns true if there was a database failure and the backup was loaded from
 		return
+	sync_ranks_with_db()
+	var/list/sql_admins = list()
+	for(var/i in GLOB.protected_admins)
+		var/datum/admins/A = GLOB.protected_admins[i]
+		var/sql_ckey = sanitizeSQL(A.target)
+		var/sql_rank = sanitizeSQL(A.rank.name)
+		sql_admins += list(list("ckey" = "'[sql_ckey]'", "rank" = "'[sql_rank]'"))
+	SSdbcore.MassInsert(format_table_name("admin"), sql_admins, duplicate_key = TRUE)
 	var/datum/DBQuery/query_admin_rank_update = SSdbcore.NewQuery("UPDATE [format_table_name("player")] p INNER JOIN [format_table_name("admin")] a ON p.ckey = a.ckey SET p.lastadminrank = a.rank")
 	query_admin_rank_update.Execute()
 	qdel(query_admin_rank_update)
@@ -559,16 +583,39 @@
 			flags += "can_edit_flags"
 		if(!flags.len)
 			continue
+		var/sql_rank = sanitizeSQL(R.name)
 		var/flags_to_check = flags.Join(" != [R_EVERYTHING] AND ") + " != [R_EVERYTHING]"
-		var/datum/DBQuery/query_check_everything_ranks = SSdbcore.NewQuery("SELECT flags, exclude_flags, can_edit_flags FROM [format_table_name("admin_ranks")] WHERE rank = '[R.name]' AND ([flags_to_check])")
+		var/datum/DBQuery/query_check_everything_ranks = SSdbcore.NewQuery("SELECT flags, exclude_flags, can_edit_flags FROM [format_table_name("admin_ranks")] WHERE rank = '[sql_rank]' AND ([flags_to_check])")
 		if(!query_check_everything_ranks.Execute())
 			qdel(query_check_everything_ranks)
 			return
 		if(query_check_everything_ranks.NextRow()) //no row is returned if the rank already has the correct flag value
 			var/flags_to_update = flags.Join(" = [R_EVERYTHING], ") + " = [R_EVERYTHING]"
-			var/datum/DBQuery/query_update_everything_ranks = SSdbcore.NewQuery("UPDATE [format_table_name("admin_ranks")] SET [flags_to_update] WHERE rank = '[R.name]'")
+			var/datum/DBQuery/query_update_everything_ranks = SSdbcore.NewQuery("UPDATE [format_table_name("admin_ranks")] SET [flags_to_update] WHERE rank = '[sql_rank]'")
 			if(!query_update_everything_ranks.Execute())
 				qdel(query_update_everything_ranks)
 				return
 			qdel(query_update_everything_ranks)
 		qdel(query_check_everything_ranks)
+
+/datum/controller/subsystem/ticker/proc/cargoking()
+	var/datum/achievement/cargoking/CK = SSachievements.get_achievement(/datum/achievement/cargoking)
+	var/cargoking = FALSE
+	var/ducatduke = FALSE
+	if(SSshuttle.points > 1000000)//Why is the cargo budget on SSshuttle instead of SSeconomy :thinking:
+		ducatduke = TRUE
+		if(SSshuttle.points > CK.amount)
+			cargoking = TRUE
+	var/hasQM = FALSE //we only wanna update the record if there's a QM
+	for(var/mob/M in GLOB.player_list)
+		if(M.mind && M.mind.assigned_role && M.mind.assigned_role == "Quartermaster")
+			if(ducatduke)
+				SSachievements.unlock_achievement(/datum/achievement/ducatduke, M.client)
+				if(cargoking)
+					SSachievements.unlock_achievement(/datum/achievement/cargoking, M.client)
+			hasQM = TRUE //there might be more than one QM, so we do the DB stuff outside of the loop
+	if(hasQM && cargoking)
+		var/datum/DBQuery/Q = SSdbcore.New("UPDATE [format_table_name("misc")] SET value = '[SSshuttle.points]' WHERE key = 'cargorecord'")
+		Q.Execute()
+		qdel(Q)
+

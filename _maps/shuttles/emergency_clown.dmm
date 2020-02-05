@@ -15,7 +15,7 @@
 "ae" = (
 /obj/structure/table,
 /obj/item/storage/firstaid/fire,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "af" = (
 /obj/structure/chair/comfy/shuttle{
@@ -34,13 +34,13 @@
 	pixel_y = 3
 	},
 /obj/item/crowbar,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "ai" = (
 /obj/machinery/computer/atmos_alert{
 	dir = 4
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aj" = (
 /obj/structure/chair/comfy/shuttle{
@@ -62,13 +62,13 @@
 /obj/machinery/computer/security{
 	dir = 8
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "an" = (
 /obj/machinery/computer/crew{
 	dir = 4
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "ao" = (
 /obj/structure/chair/comfy/shuttle{
@@ -96,16 +96,20 @@
 /obj/machinery/computer/communications{
 	dir = 8
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "as" = (
-/obj/machinery/door/airlock/public/glass{
+/obj/machinery/door/airlock/bananium/glass{
 	name = "Emergency Shuttle Premium Lounge"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "at" = (
-/obj/machinery/status_display,
+/obj/machinery/status_display/evac,
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/escape)
 "au" = (
@@ -115,15 +119,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/noslip,
-/area/shuttle/escape)
-"aw" = (
-/turf/open/floor/noslip,
-/area/shuttle/escape)
-"ax" = (
-/obj/structure/closet/emcloset,
-/obj/item/toy/sword,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "ay" = (
 /obj/structure/table,
@@ -133,42 +129,54 @@
 	pixel_y = 3
 	},
 /obj/item/crowbar,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "az" = (
 /obj/item/greentext/quiet{
 	anchored = 1
 	},
-/turf/open/floor/mineral/plastitanium/brig,
+/turf/open/floor/mineral/plastitanium/red/brig,
 /area/shuttle/escape)
 "aA" = (
-/obj/machinery/door/airlock/public/glass{
+/obj/machinery/door/airlock/bananium/glass{
 	name = "Emergency Shuttle Greentext"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "aB" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/floor/noslip,
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/bluespace,
 /area/shuttle/escape)
 "aC" = (
 /obj/structure/chair/comfy/shuttle,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aD" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aE" = (
 /obj/structure/table,
 /obj/item/multitool/ai_detect,
-/turf/open/floor/noslip,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aF" = (
+/obj/machinery/vending/wallmed{
+	name = "Emergency NanoMed";
+	use_power = 0
+	},
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "aG" = (
@@ -177,19 +185,27 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/noslip,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aH" = (
 /obj/structure/table,
 /obj/item/toy/sword,
-/turf/open/floor/noslip,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aI" = (
-/obj/machinery/door/airlock/titanium{
+/obj/machinery/door/airlock/bananium{
 	name = "Emergency Shuttle Airlock"
 	},
 /obj/docking_port/mobile/emergency{
 	name = "Snappop(tm)!"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
@@ -221,7 +237,7 @@
 "aM" = (
 /obj/structure/bed,
 /obj/item/bedsheet/random,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aN" = (
 /obj/structure/window/reinforced{
@@ -229,7 +245,7 @@
 	},
 /obj/structure/bed,
 /obj/item/bedsheet/random,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aO" = (
 /obj/structure/window/reinforced{
@@ -237,7 +253,7 @@
 	},
 /obj/structure/bed,
 /obj/item/bedsheet/random,
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aP" = (
 /obj/structure/bed,
@@ -245,11 +261,20 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/open/floor/noslip,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aQ" = (
-/obj/machinery/door/airlock/titanium{
+/obj/machinery/door/airlock/bananium{
 	name = "Emergency Shuttle Airlock"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
@@ -266,15 +291,23 @@
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "aT" = (
-/obj/machinery/door/airlock/titanium{
+/obj/machinery/door/airlock/bananium{
 	name = "Emergency Shuttle Cargo"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "aU" = (
-/obj/machinery/door/airlock/public/glass{
+/obj/machinery/door/airlock/bananium/glass{
 	name = "Emergency Shuttle Infirmary"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "aV" = (
@@ -284,13 +317,12 @@
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 27
 	},
+/obj/machinery/portable_atmospherics/canister/air,
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aX" = (
-/obj/machinery/sleeper{
-	dir = 8
-	},
-/turf/open/floor/noslip,
+/obj/machinery/stasis,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aY" = (
 /obj/machinery/light/small{
@@ -303,14 +335,8 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"ba" = (
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 8
-	},
-/turf/open/floor/noslip,
 /area/shuttle/escape)
 "bb" = (
 /obj/structure/table,
@@ -326,7 +352,7 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "bc" = (
 /obj/structure/closet/crate/trashcart{
@@ -359,6 +385,129 @@
 /obj/structure/shuttle/engine/propulsion,
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
+"cx" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"dh" = (
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
+"dp" = (
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"he" = (
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"ib" = (
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/shuttle/escape)
+"kl" = (
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
+"oE" = (
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"rJ" = (
+/obj/structure/table,
+/obj/item/toy/sword,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"tc" = (
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/shuttle/escape)
+"Bq" = (
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
+"Dc" = (
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"Gc" = (
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/shuttle/escape)
+"Jj" = (
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"LP" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"XS" = (
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"Zf" = (
+/obj/structure/closet/emcloset,
+/obj/item/toy/sword,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
 
 (1,1,1) = {"
 aa
@@ -372,9 +521,9 @@ ab
 ab
 aI
 ab
-ac
-ac
-ac
+ib
+ib
+ib
 ab
 aQ
 ab
@@ -395,11 +544,11 @@ au
 au
 ab
 aJ
+dp
 aM
 aM
 aM
-aM
-aM
+he
 aR
 ab
 aV
@@ -419,11 +568,11 @@ az
 au
 ab
 aK
+Bq
 ak
 ak
 ak
-ak
-ak
+aB
 aS
 ab
 aV
@@ -433,7 +582,7 @@ bf
 bg
 "}
 (4,1,1) = {"
-ac
+tc
 ae
 aj
 ao
@@ -443,11 +592,11 @@ au
 au
 ab
 ak
+XS
 aN
 aN
 aN
-aN
-aN
+Dc
 ak
 aT
 aV
@@ -457,7 +606,7 @@ bf
 bg
 "}
 (5,1,1) = {"
-ac
+tc
 af
 ak
 ap
@@ -466,22 +615,22 @@ ac
 aA
 ac
 aF
-ak
+dh
+oE
 aO
 aO
 aO
-aO
-aO
-ak
+Jj
+dh
 ab
 aW
-aZ
+LP
 be
 bf
 bg
 "}
 (6,1,1) = {"
-ac
+tc
 ag
 ak
 aq
@@ -491,11 +640,11 @@ ak
 aC
 aG
 ak
+Bq
 ak
 ak
 ak
-ak
-ak
+aB
 aq
 at
 ab
@@ -505,7 +654,7 @@ bf
 bg
 "}
 (7,1,1) = {"
-ac
+tc
 af
 ak
 ak
@@ -514,41 +663,41 @@ ak
 ak
 aD
 aH
-ak
+kl
+XS
 aN
 aN
 aN
-aN
-aN
-ak
+Dc
+kl
 ac
-ax
-ba
-ax
+Zf
+aY
+Zf
 bf
 bg
 "}
 (8,1,1) = {"
-ac
+tc
 ah
 al
 al
 at
-aw
-ak
+cx
+kl
 aE
-aH
+rJ
 ak
 aP
 aO
 aO
 aO
-aO
+Jj
 ak
 aU
-aw
-aw
-aw
+aV
+aV
+aV
 bf
 bg
 "}
@@ -558,21 +707,21 @@ ad
 am
 ar
 ab
-ax
+Zf
+aB
 ak
 ak
 ak
+Bq
 ak
 ak
 ak
-ak
-ak
-ak
+aB
 ak
 ac
-aw
-aw
-aw
+aV
+aV
+aV
 bf
 bg
 "}
@@ -583,15 +732,15 @@ ab
 ab
 ab
 ay
-aB
-aw
-aw
+aZ
+aV
+aV
 aL
+dp
 aM
 aM
 aM
-aM
-aM
+he
 aL
 ac
 aX
@@ -606,21 +755,21 @@ aa
 aa
 aa
 ab
-ac
+Gc
 ab
-ac
-ab
-ab
-ab
-ac
-ac
-ac
+Gc
 ab
 ab
 ab
-ac
+Gc
+Gc
+Gc
 ab
-ac
+ab
+ab
+Gc
+ab
+Gc
 ab
 aa
 "}

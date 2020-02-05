@@ -8,9 +8,10 @@
 			<B>General Secrets</B><BR>
 			<BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=admin_log'>Admin Log</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=mentor_log'>Mentor Log</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=show_admins'>Show Admin List</A><BR>
 			<BR>
-			"}
+			"}   // YOGS - Added mentor logs
 
 	if(check_rights(R_ADMIN,0))
 		dat += {"
@@ -18,7 +19,6 @@
 			<BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=clear_virus'>Cure all diseases currently in existence</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=list_bombers'>Bombing List</A><BR>
-			<A href='?src=[REF(src)];[HrefToken()];secrets=check_antagonist'>Show current traitors and objectives</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=list_signalers'>Show last [length(GLOB.lastsignalers)] signalers</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=list_lawchanges'>Show last [length(GLOB.lawchanges)] law changes</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=showailaws'>Show AI Laws</A><BR>
@@ -54,13 +54,11 @@
 			<A href='?src=[REF(src)];[HrefToken()];secrets=quickpower'>Power all SMES</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=tripleAI'>Triple AI mode (needs to be used in the lobby)</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=traitor_all'>Everyone is the traitor</A><BR>
-			<A href='?src=[REF(src)];[HrefToken()];secrets=guns'>Summon Guns</A><BR>
-			<A href='?src=[REF(src)];[HrefToken()];secrets=magic'>Summon Magic</A><BR>
-			<A href='?src=[REF(src)];[HrefToken()];secrets=events'>Summon Events (Toggle)</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=onlyone'>There can only be one!</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=delayed_onlyone'>There can only be one! (40-second delay)</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=retardify'>Make all players retarded</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=eagles'>Egalitarian Station Mode</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=ancap'>Anarcho-Capitalist Station Mode</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=blackout'>Break all lights</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=whiteout'>Fix all lights</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=floorlava'>The floor is lava! (DANGEROUS: extremely lame)</A><BR>
@@ -106,6 +104,9 @@
 				dat += "No-one has done anything this round!"
 			usr << browse(dat, "window=admin_log")
 
+		if("mentor_log") // YOGS - Get in those mentor logs
+			YogMentorLogs() // YOGS - Same as above
+
 		if("show_admins")
 			var/dat = "<B>Current admins:</B><HR>"
 			if(GLOB.admin_datums)
@@ -124,15 +125,15 @@
 			log_admin("[key_name(usr)] reset the thunderdome to default with delete_mobs==[delete_mobs].", 1)
 			message_admins("<span class='adminnotice'>[key_name_admin(usr)] reset the thunderdome to default with delete_mobs==[delete_mobs].</span>")
 
-			var/area/thunderdome = locate(/area/tdome/arena)
+			var/area/thunderdome = GLOB.areas_by_type[/area/tdome/arena]
 			if(delete_mobs == "Yes")
 				for(var/mob/living/mob in thunderdome)
 					qdel(mob) //Clear mobs
 			for(var/obj/obj in thunderdome)
-				if(!istype(obj, /obj/machinery/camera))
+				if(!istype(obj, /obj/machinery/camera) && !istype(obj, /obj/effect/abstract/proximity_checker))
 					qdel(obj) //Clear objects
 
-			var/area/template = locate(/area/tdome/arena_source)
+			var/area/template = GLOB.areas_by_type[/area/tdome/arena_source]
 			template.copy_contents_to(thunderdome)
 
 		if("clear_virus")
@@ -239,7 +240,7 @@
 				message_admins("[key_name_admin(usr)] [new_perma ? "stopped" : "started"] the arrivals shuttle")
 				log_admin("[key_name(usr)] [new_perma ? "stopped" : "started"] the arrivals shuttle")
 			else
-				to_chat(usr, "<span class='admin'>There is no arrivals shuttle</span>")
+				to_chat(usr, "<span class='admin'>There is no arrivals shuttle</span>", confidential=TRUE)
 		if("showailaws")
 			if(!check_rights(R_ADMIN))
 				return
@@ -402,7 +403,7 @@
 						var/obj/item/organ/tail/cat/tail = new
 						ears.Insert(H, drop_if_replaced=FALSE)
 						tail.Insert(H, drop_if_replaced=FALSE)
-					var/list/honorifics = list("[MALE]" = list("kun"), "[FEMALE]" = list("chan","tan"), "[NEUTER]" = list("san")) //John Robust -> Robust-kun
+					var/list/honorifics = list("[MALE]" = list("kun"), "[FEMALE]" = list("chan","tan"), "[NEUTER]" = list("san"), "[PLURAL]" = list("san")) //John Robust -> Robust-kun
 					var/list/names = splittext(H.real_name," ")
 					var/forename = names.len > 1 ? names[2] : names[1]
 					var/newname = "[forename]-[pick(honorifics["[H.gender]"])]"
@@ -416,7 +417,7 @@
 						H.equip_to_slot_or_del(I, SLOT_W_UNIFORM)
 						qdel(olduniform)
 						if(droptype == "Yes")
-							I.item_flags |= NODROP
+							ADD_TRAIT(I, TRAIT_NODROP, ADMIN_TRAIT)
 				else
 					to_chat(H, "You're not kawaii enough for this.")
 
@@ -452,7 +453,7 @@
 			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Mass Braindamage"))
 			for(var/mob/living/carbon/human/H in GLOB.player_list)
 				to_chat(H, "<span class='boldannounce'>You suddenly feel stupid.</span>")
-				H.adjustBrainLoss(60, 80)
+				H.adjustOrganLoss(ORGAN_SLOT_BRAIN, 60, 80)
 			message_admins("[key_name_admin(usr)] made everybody retarded")
 
 		if("eagles")//SCRAW
@@ -465,49 +466,16 @@
 			message_admins("[key_name_admin(usr)] activated Egalitarian Station mode")
 			priority_announce("CentCom airlock control override activated. Please take this time to get acquainted with your coworkers.", null, 'sound/ai/commandreport.ogg')
 
-		if("guns")
+		if("ancap")
 			if(!check_rights(R_FUN))
 				return
-			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Summon Guns"))
-			var/survivor_probability = 0
-			switch(alert("Do you want this to create survivors antagonists?",,"No Antags","Some Antags","All Antags!"))
-				if("Some Antags")
-					survivor_probability = 25
-				if("All Antags!")
-					survivor_probability = 100
-
-			rightandwrong(SUMMON_GUNS, usr, survivor_probability)
-
-		if("magic")
-			if(!check_rights(R_FUN))
-				return
-			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Summon Magic"))
-			var/survivor_probability = 0
-			switch(alert("Do you want this to create survivors antagonists?",,"No Antags","Some Antags","All Antags!"))
-				if("Some Antags")
-					survivor_probability = 25
-				if("All Antags!")
-					survivor_probability = 100
-
-			rightandwrong(SUMMON_MAGIC, usr, survivor_probability)
-
-		if("events")
-			if(!check_rights(R_FUN))
-				return
-			if(!SSevents.wizardmode)
-				if(alert("Do you want to toggle summon events on?",,"Yes","No") == "Yes")
-					summonevents()
-					SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Summon Events", "Activate"))
-
+			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Anarcho-capitalist Station"))
+			SSeconomy.full_ancap = !SSeconomy.full_ancap
+			message_admins("[key_name_admin(usr)] toggled Anarcho-capitalist mode")
+			if(SSeconomy.full_ancap)
+				priority_announce("The NAP is now in full effect.", null, 'sound/ai/commandreport.ogg')
 			else
-				switch(alert("What would you like to do?",,"Intensify Summon Events","Turn Off Summon Events","Nothing"))
-					if("Intensify Summon Events")
-						summonevents()
-						SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Summon Events", "Intensify"))
-					if("Turn Off Summon Events")
-						SSevents.toggleWizardmode()
-						SSevents.resetFrequency()
-						SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Summon Events", "Disable"))
+				priority_announce("The NAP has been revoked.", null, 'sound/ai/commandreport.ogg')
 
 		if("dorf")
 			if(!check_rights(R_FUN))

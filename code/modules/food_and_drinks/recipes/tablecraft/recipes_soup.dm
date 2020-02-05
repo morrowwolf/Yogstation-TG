@@ -33,7 +33,7 @@
 	reqs = list(
 		/datum/reagent/water = 10,
 		/obj/item/reagent_containers/glass/bowl = 1,
-		/obj/item/grown/nettle = 1,
+		/obj/item/reagent_containers/food/snacks/grown/nettle = 1,
 		/obj/item/reagent_containers/food/snacks/grown/potato = 1,
 		/obj/item/reagent_containers/food/snacks/boiledegg = 1
 	)
@@ -235,4 +235,15 @@
 		/obj/item/reagent_containers/food/snacks/grown/cabbage = 1
 	)
 	result = /obj/item/reagent_containers/food/snacks/soup/beet/red
+	subcategory = CAT_SOUP
+
+/datum/crafting_recipe/food/dolphinsoup
+	name = "Dolphin soup"
+	reqs = list(
+		/datum/reagent/blood = 10,
+		/datum/reagent/water = 10,
+		/obj/item/reagent_containers/glass/bowl = 1,
+		/obj/item/reagent_containers/food/snacks/dolphinmeat = 2
+	)
+	result = /obj/item/reagent_containers/food/snacks/soup/dolphinsoup
 	subcategory = CAT_SOUP

@@ -23,6 +23,7 @@
 	var/atmosalm = FALSE
 	var/poweralm = TRUE
 	var/lightswitch = TRUE
+	var/vacuum = null //yogs- yellow vacuum lights
 
 	var/requires_power = TRUE
 	var/always_unpowered = FALSE	// This gets overridden to 1 for space in area/Initialize().
@@ -34,7 +35,6 @@
 	var/power_equip = TRUE
 	var/power_light = TRUE
 	var/power_environ = TRUE
-	var/music = null
 	var/used_equip = 0
 	var/used_light = 0
 	var/used_environ = 0
@@ -46,6 +46,8 @@
 	var/noteleport = FALSE			//Are you forbidden from teleporting to the area? (centcom, mobs, wizard, hand teleporter)
 	var/hidden = FALSE 			//Hides area from player Teleport function.
 	var/safe = FALSE 				//Is the area teleport-safe: no space / radiation / aggresive mobs / other dangers
+	/// If false, loading multiple maps with this area type will create multiple instances.
+	var/unique = TRUE
 
 	var/no_air = null
 
@@ -63,6 +65,8 @@
 	var/xenobiology_compatible = FALSE //Can the Xenobio management console transverse this area by default?
 	var/list/canSmoothWithAreas //typecache to limit the areas that atoms in this area can smooth with
 
+	var/minimap_color = null // if null, chooses random one
+
 /*Adding a wizard area teleport list because motherfucking lag -- Urist*/
 /*I am far too lazy to make it a proper list of areas so I'll just make it run the usual telepot routine at the start of the game*/
 GLOBAL_LIST_EMPTY(teleportlocs)
@@ -74,7 +78,9 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			continue
 		if(GLOB.teleportlocs[AR.name])
 			continue
-		var/turf/picked = safepick(get_area_turfs(AR.type))
+		if (!AR.contents.len)
+			continue
+		var/turf/picked = AR.contents[1]
 		if (picked && is_station_level(picked.z))
 			GLOB.teleportlocs[AR.name] = AR
 
@@ -82,6 +88,21 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 
 // ===
 
+/area/New()
+	if(!minimap_color) // goes in New() because otherwise it doesn't fucking work
+		// generate one using the icon_state
+		if(icon_state && icon_state != "unknown")
+			var/icon/I = new(icon, icon_state, dir)
+			I.Scale(1,1)
+			minimap_color = I.GetPixel(1,1)
+		else // no icon state? use random.
+			minimap_color = rgb(rand(50,70),rand(50,70),rand(50,70))
+
+	// This interacts with the map loader, so it needs to be set immediately
+	// rather than waiting for atoms to initialize.
+	if (unique)
+		GLOB.areas_by_type[type] = src
+	return ..()
 
 /area/Initialize()
 	icon_state = ""
@@ -112,6 +133,14 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if(!IS_DYNAMIC_LIGHTING(src))
 		add_overlay(/obj/effect/fullbright)
 
+	reg_in_areas_in_z()
+
+	return INITIALIZE_HINT_LATELOAD
+
+/area/LateInitialize()
+	power_change()		// all machines set to current power level, also updates icon
+
+/area/proc/reg_in_areas_in_z()
 	if(contents.len)
 		var/list/areas_in_z = SSmapping.areas_in_z
 		var/z
@@ -129,12 +158,9 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			areas_in_z["[z]"] = list()
 		areas_in_z["[z]"] += src
 
-	return INITIALIZE_HINT_LATELOAD
-
-/area/LateInitialize()
-	power_change()		// all machines set to current power level, also updates icon
-
 /area/Destroy()
+	if(GLOB.areas_by_type[type] == src)
+		GLOB.areas_by_type[type] = null
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
@@ -315,7 +341,19 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	for(var/obj/machinery/light/L in src)
 		L.update()
 
-/area/proc/updateicon()
+/area/proc/set_vacuum_alarm_effect() //Just like fire alarm but blue
+	vacuum = TRUE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	for(var/obj/machinery/light/L in src)
+		L.update()
+
+/area/proc/unset_vacuum_alarm_effect()
+	vacuum = FALSE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	for(var/obj/machinery/light/L in src)
+		L.update()
+
+/area/proc/update_icon()
 	var/weather_icon
 	for(var/V in SSweather.processing)
 		var/datum/weather/W = V
@@ -325,7 +363,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if(!weather_icon)
 		icon_state = null
 
-/area/space/updateicon()
+/area/space/update_icon()
 	icon_state = null
 
 /*
@@ -358,7 +396,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 /area/proc/power_change()
 	for(var/obj/machinery/M in src)	// for each machine in the area
 		M.power_change()				// reverify power status (to update icons etc.)
-	updateicon()
+	update_icon()
 
 /area/proc/usage(chan)
 	var/used = 0
@@ -453,8 +491,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		var/max_grav
 		for(var/i in forced_gravity)
 			max_grav = max(max_grav, i)
-		if(max_grav)
-			return max_grav
+		return max_grav
 
 	if(isspaceturf(T)) // Turf never has gravity
 		return 0

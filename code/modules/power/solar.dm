@@ -200,7 +200,7 @@
 
 
 /obj/item/solar_assembly/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/wrench) && isturf(loc))
+	if(W.tool_behaviour == TOOL_WRENCH && isturf(loc))
 		if(isinspace())
 			to_chat(user, "<span class='warning'>You can't secure [src] here.</span>")
 			return
@@ -240,7 +240,7 @@
 			user.visible_message("[user] inserts the electronics into the solar assembly.", "<span class='notice'>You insert the electronics into the solar assembly.</span>")
 			return 1
 	else
-		if(istype(W, /obj/item/crowbar))
+		if(W.tool_behaviour == TOOL_CROWBAR)
 			new /obj/item/electronics/tracker(src.loc)
 			tracker = 0
 			user.visible_message("[user] takes out the electronics from the solar assembly.", "<span class='notice'>You take out the electronics from the solar assembly.</span>")
@@ -342,7 +342,7 @@
 												datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "solar_control", name, 500, 400, master_ui, state)
+		ui = new(user, src, ui_key, "solar_control", name, 380, 230, master_ui, state)
 		ui.open()
 
 /obj/machinery/power/solar_control/ui_data()
@@ -363,42 +363,50 @@
 /obj/machinery/power/solar_control/ui_act(action, params)
 	if(..())
 		return
-	switch(action)
-		if("angle")
-			var/adjust = text2num(params["adjust"])
-			if(adjust)
-				currentdir = CLAMP((360 + adjust + currentdir) % 360, 0, 359)
-				targetdir = currentdir
-				set_panels(currentdir)
-				. = TRUE
-		if("rate")
-			var/adjust = text2num(params["adjust"])
-			if(adjust)
-				trackrate = CLAMP(trackrate + adjust, -7200, 7200)
-				if(trackrate)
-					nexttime = world.time + 36000 / abs(trackrate)
-				. = TRUE
-		if("tracking")
-			var/mode = text2num(params["mode"])
-			track = mode
-			if(mode == 2 && connected_tracker)
-				connected_tracker.set_angle(SSsun.angle)
-				set_panels(currentdir)
-			else if(mode == 1)
-				targetdir = currentdir
-				if(trackrate)
-					nexttime = world.time + 36000 / abs(trackrate)
-				set_panels(targetdir)
-			. = TRUE
-		if("refresh")
-			search_for_connected()
-			if(connected_tracker && track == 2)
-				connected_tracker.set_angle(SSsun.angle)
+	if(action == "angle")
+		var/adjust = text2num(params["adjust"])
+		var/value = text2num(params["value"])
+		if(adjust)
+			value = currentdir + adjust
+		if(value != null)
+			currentdir = CLAMP((360 + value) % 360, 0, 359)
+			targetdir = currentdir
 			set_panels(currentdir)
-			. = TRUE
+			return TRUE
+		return FALSE
+	if(action == "rate")
+		var/adjust = text2num(params["adjust"])
+		var/value = text2num(params["value"])
+		if(adjust)
+			value = trackrate + adjust
+		if(value != null)
+			trackrate = CLAMP(value, -7200, 7200)
+			if(trackrate)
+				nexttime = world.time + 36000 / abs(trackrate)
+			return TRUE
+		return FALSE
+	if(action == "tracking")
+		var/mode = text2num(params["mode"])
+		track = mode
+		if(mode == 2 && connected_tracker)
+			connected_tracker.set_angle(SSsun.angle)
+			set_panels(currentdir)
+		else if(mode == 1)
+			targetdir = currentdir
+			if(trackrate)
+				nexttime = world.time + 36000 / abs(trackrate)
+			set_panels(targetdir)
+		return TRUE
+	if(action == "refresh")
+		search_for_connected()
+		if(connected_tracker && track == 2)
+			connected_tracker.set_angle(SSsun.angle)
+		set_panels(currentdir)
+		return TRUE
+	return FALSE
 
 /obj/machinery/power/solar_control/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/screwdriver))
+	if(I.tool_behaviour == TOOL_SCREWDRIVER)
 		if(I.use_tool(src, user, 20, volume=50))
 			if (src.stat & BROKEN)
 				to_chat(user, "<span class='notice'>The broken glass falls out.</span>")
@@ -456,9 +464,9 @@
 			connected_tracker.unset_control()
 
 	if(track==1 && trackrate) //manual tracking and set a rotation speed
-		if(nexttime <= world.time) //every time we need to increase/decrease the angle by 1�...
+		if(nexttime <= world.time) //every time we need to increase/decrease the angle by 1°...
 			targetdir = (targetdir + trackrate/abs(trackrate) + 360) % 360 	//... do it
-			nexttime += 36000/abs(trackrate) //reset the counter for the next 1�
+			nexttime += 36000/abs(trackrate) //reset the counter for the next 1°
 
 //rotates the panel to the passed angle
 /obj/machinery/power/solar_control/proc/set_panels(currentdir)

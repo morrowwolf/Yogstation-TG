@@ -16,7 +16,6 @@
 
 	var/on = TRUE
 	var/frequency = FREQ_COMMON
-	var/traitor_frequency = 0  // If tuned to this frequency, uplink will be unlocked.
 	var/canhear_range = 3  // The range around the radio in which mobs can hear what it receives.
 	var/emped = 0  // Tracks the number of EMPs currently stacked.
 
@@ -112,7 +111,14 @@
 	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "radio", name, 370, 220 + channels.len * 22, master_ui, state)
+		var/ui_width = 360
+		var/ui_height = 106
+		if(subspace_transmission)
+			if (channels.len > 0)
+				ui_height += 6 + channels.len * 21
+			else
+				ui_height += 24
+		ui = new(user, src, ui_key, "radio", name, ui_width, ui_height, master_ui, state)
 		ui.open()
 
 /obj/item/radio/ui_data(mob/user)
@@ -190,9 +196,9 @@
 
 /obj/item/radio/talk_into(atom/movable/M, message, channel, list/spans, datum/language/language)
 	if(!spans)
-		spans = M.get_spans()
+		spans = list(M.speech_span)
 	if(!language)
-		language = M.get_default_language()
+		language = M.get_selected_language()
 	INVOKE_ASYNC(src, .proc/talk_into_impl, M, message, channel, spans.Copy(), language)
 	return ITALICS | REDUCE_RANGE
 
@@ -222,7 +228,7 @@
 	// From the channel, determine the frequency and get a reference to it.
 	var/freq
 	if(channel && channels && channels.len > 0)
-		if(channel == "department")
+		if(channel == MODE_DEPARTMENT)
 			channel = channels[1]
 		freq = secure_radio_connections[channel]
 		if (!channels[channel]) // if the channel is turned off, don't broadcast
@@ -231,13 +237,12 @@
 		freq = frequency
 		channel = null
 
-	// Nearby active jammers severely gibberish the message
+	// Nearby active jammers prevent the message from transmitting
 	var/turf/position = get_turf(src)
 	for(var/obj/item/jammer/jammer in GLOB.active_jammers)
 		var/turf/jammer_turf = get_turf(jammer)
-		if(position.z == jammer_turf.z && (get_dist(position, jammer_turf) < jammer.range))
-			message = Gibberish(message,100)
-			break
+		if(position.z == jammer_turf.z && (get_dist(position, jammer_turf) <= jammer.range))
+			return
 
 	// Determine the identity information which will be attached to the signal.
 	var/atom/movable/virtualspeaker/speaker = new(null, M, src)
@@ -265,7 +270,7 @@
 	addtimer(CALLBACK(src, .proc/backup_transmission, signal), 20)
 
 /obj/item/radio/proc/backup_transmission(datum/signal/subspace/vocal/signal)
-	var/turf/T = get_turf(src)
+	var/turf/T = get_turf_global(src) // yogs - get_turf_global instead of get_turf
 	if (signal.data["done"] && (T.z in signal.levels))
 		return
 
@@ -276,6 +281,7 @@
 	signal.broadcast()
 
 /obj/item/radio/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
+	. = ..()
 	if(radio_freq || !broadcasting || get_dist(src, speaker) > canhear_range)
 		return
 
@@ -303,7 +309,7 @@
 	if (freq == FREQ_CENTCOM)
 		return independent  // hard-ignores the z-level check
 	if (!(0 in level))
-		var/turf/position = get_turf(src)
+		var/turf/position = get_turf_global(src) // yogs - get_turf_global instead of get_turf
 		if(!position || !(position.z in level))
 			return FALSE
 
@@ -319,15 +325,17 @@
 
 
 /obj/item/radio/examine(mob/user)
-	..()
+	. = ..()
+	if (frequency && in_range(src, user))
+		. += "<span class='notice'>It is set to broadcast over the [frequency/10] frequency.</span>"
 	if (unscrewed)
-		to_chat(user, "<span class='notice'>It can be attached and modified.</span>")
+		. += "<span class='notice'>It can be attached and modified.</span>"
 	else
-		to_chat(user, "<span class='notice'>It cannot be modified or attached.</span>")
+		. += "<span class='notice'>It cannot be modified or attached.</span>"
 
 /obj/item/radio/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
-	if(istype(W, /obj/item/screwdriver))
+	if(W.tool_behaviour == TOOL_SCREWDRIVER)
 		unscrewed = !unscrewed
 		if(unscrewed)
 			to_chat(user, "<span class='notice'>The radio can now be attached and modified!</span>")
@@ -378,7 +386,7 @@
 
 /obj/item/radio/borg/attackby(obj/item/W, mob/user, params)
 
-	if(istype(W, /obj/item/screwdriver))
+	if(W.tool_behaviour == TOOL_SCREWDRIVER)
 		if(keyslot)
 			for(var/ch_name in channels)
 				SSradio.remove_object(src, GLOB.radiochannels[ch_name])
